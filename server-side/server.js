@@ -6,20 +6,31 @@ require('./connection');
 const Admin = require('./Routes/admin');
 const User = require('./Routes/user');
 const userManagement = require('./Routes/userManagement');
+const giverDashboard = require('./Routes/giverDashboard');
+
+
 
 const cors = require('cors');
+const authenticateToken = require('./middleware/authentication');
 app.use(cors({
   origin:'*',
 }));
 
-const port = process.env.PORT || 5000;
+
+
+
 
 app.use(Admin);
 app.use(User);
 app.use(userManagement);
+app.use(giverDashboard);
 
 
 
+
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+

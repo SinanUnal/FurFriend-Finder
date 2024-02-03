@@ -1,8 +1,7 @@
-// require('dotenv').config();
 const express = require('express');
 const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 
 
@@ -38,6 +37,11 @@ router.post('/signup', async (req, res) => {
      
       await newUser.validate();
       await newUser.save();
+
+
+   
+     
+
       res.status(200).send({ message: 'User registered successfully' });
       }
     } catch (error) {
@@ -46,7 +50,7 @@ router.post('/signup', async (req, res) => {
         return res.status(400).send({ message: error.message });
       } else {
         // Handle other errors
-        console.error(error);
+        console.error('Error during user creation',error);
         res.status(500).send({ message: 'Error creating user', error: error.message });
       }
     }

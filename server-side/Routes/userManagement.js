@@ -39,12 +39,14 @@ router.post('/login', async (req, res) => {
       userData.userType = account.userType;
     }
 
+ 
+
 
     res.status(200).send({ 
       token, 
       message: 'Login is successful', 
       role: role,
-      user: userData 
+      user: userData,
     });
   } catch (error) {
     console.error(error);

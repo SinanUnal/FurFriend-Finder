@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema({
   address: { type: String, required: true},
   phoneNumber: { type: String, required: true},
   userType: { type: String, required: true, enum: ['adopter', 'giver'] },
+  // activeSubmission: { type: Number, default: 0 },
 });
 
 const User = mongoose.model('User', userSchema);
