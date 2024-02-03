@@ -1,9 +1,9 @@
 const express = require('express');
 const Admin = require('../models/adminModel');
-// const User = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const authenticateToken = require('../middleware/authentication');
 const Submission = require('../models/submission');
+const User = require('../models/userModel');
 
 const router = express.Router();
 
@@ -109,6 +109,62 @@ router.post('/admin/reject/:submissionId', authenticateToken, async (req, res) =
 });
 
 
+router.get('/admin/users', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied '});
+  }
 
+  try {
+    const users = await User.find({});
+    res.send(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error fetching users', error: error.message });
+
+  }
+});
+
+router.patch('/admin/users/:userId', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied' });
+  }
+  const { userId } = req.params;
+  try {
+    const updatedUser = await Admin.findByIdAndUpdate(userId, req.body, { new: true });
+    res.send({ message: 'User updated successfully', updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error updating user', error: error.message });
+  }
+});
+
+router.delete('/admin/users/:userId', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied '});
+  }
+
+  const { userId } = req.params;
+  try {
+    await User.findByIdAndDelete(userId);
+    res.send({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error deleting user', error: error.message });
+  }
+});
+
+router.get('/admin/reports', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied' });
+  }
+  try {
+    const activeUsers = await User.countDocument({});
+    const totalAdoptions = await Submission.countDocuments({ status: 'adopted'});
+    res.send({ activeUsers, totalAdoptions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error fetching report data', error: error.message });
+  }
+});
 
 module.exports = router;
