@@ -3,13 +3,38 @@ import { useEffect, useState } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import UserManagement from '../Users/UserManagement';
 import Reports from '../Reports/Reports';
+import AnimalSubmissionForm from '../giver/AnimalSubmissionForm';
 
 export default function AdminDashboard() {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
+  const [submissions, setSubmissions] = useState([]);
+  const [selectedSubmission, setSelectedSubmission] = useState(null);
 
+  useEffect(() => {
+    fetchSubmissions();
+  }, []);
+
+  const fetchSubmissions = async () => {
+    try {
+      const axiosInstance = axiosWithAuth();
+      const response = await axiosInstance.get('http://localhost:5000/admin/submissions');
+      setSubmissions(response.data);
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+    }
+  };
+
+  const handleEdit = (submission) => {
+    setSelectedSubmission(submission);
+  };
+
+  const handleUpdateSuccess = () => {
+    fetchSubmissions();
+    setSelectedSubmission(null);
+  };
 
   
-    const fetchPendingSubmissions = async () => {
+  const fetchPendingSubmissions = async () => {
       try {
         const axiosInstance = axiosWithAuth();
         const response = await axiosInstance.get('http://localhost:5000/admin/approvals');
@@ -64,6 +89,21 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1>Admin Dashboard</h1>
+      {selectedSubmission && (
+        <AnimalSubmissionForm
+        initialData={selectedSubmission}
+        isAdmin={true}
+        onSubmissionSuccess={handleUpdateSuccess}
+      />
+      )}
+      <h2>All submissions</h2>
+      {submissions.map(submission => (
+        <div key={submission._id}>
+          <p>{submission.animalName}</p>
+          <button onClick={() => handleEdit(submission)}>Edit</button>
+        </div>
+      ))}
+      
       <h2>Pending Approvals</h2>
       <table>
         <thead>
