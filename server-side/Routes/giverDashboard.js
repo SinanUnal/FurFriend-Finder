@@ -12,11 +12,11 @@ router.get('/giverDashboard/:userId', async (req, res) => {
     if(!user) return res.status(404).send({ message: 'User not found'});
 
     const activeSubmission = await Submission.countDocuments({ giverId: userId, status: 'active' });
-    console.log(`Active submissions for user ${userId}:`, activeSubmission);
+    // console.log(`Active submissions for user ${userId}:`, activeSubmission);
 
 
 
-    
+
     const pendingApprovals = await Submission.countDocuments({ giverId: userId, status: 'pending' });
     const successfulAdoption = await Submission.countDocuments({ giverId: userId, status: 'adopted' });
 

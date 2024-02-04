@@ -13,7 +13,7 @@ export default function AdminDashboard() {
       try {
         const axiosInstance = axiosWithAuth();
         const response = await axiosInstance.get('http://localhost:5000/admin/approvals');
-        console.log(response.data);
+        // console.log(response.data);
         setPendingSubmissions(response.data);
         
       } catch (error) {

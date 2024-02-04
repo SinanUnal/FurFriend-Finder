@@ -63,6 +63,7 @@ export default function UserManagement() {
             <th>Username</th>
             <th>Age</th>
             <th>Address</th>
+            <th>Phone Number</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -90,6 +91,12 @@ export default function UserManagement() {
                       value={editFormData.address}
                       onChange={handleEditChange}
                     />
+                    <input
+                      type="number"
+                      name="phoneNumber"
+                      value={editFormData.phoneNumber}
+                      onChange={handleEditChange}
+                    />
                     <button type="submit">Save</button>
                     <button onClick={() => setEditingUserId(null)}>Cancel</button>
                   </form>
@@ -99,6 +106,7 @@ export default function UserManagement() {
                   <td>{user.username}</td>
                   <td>{user.age}</td>
                   <td>{user.address}</td>
+                  <td>{user.phoneNumber}</td>
                   <td>
                     <button onClick={() => handleEdit(user)}>Edit</button>
                     <button onClick={() => handleDelete(user._id)}>Delete</button>

@@ -49,7 +49,7 @@ export default function ParentComponent({ userId }) {
     try {
       const axiosInstance = axiosWithAuth();
       const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/currentListings/${userId}`);
-      console.log("Current Listings:", response.data);
+      // console.log("Current Listings:", response.data);
       setCurrentListing(response.data);
       setError('');
     } catch (error) {

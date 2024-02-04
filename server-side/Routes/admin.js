@@ -130,7 +130,7 @@ router.patch('/admin/users/:userId', authenticateToken, async (req, res) => {
   }
   const { userId } = req.params;
   try {
-    const updatedUser = await Admin.findByIdAndUpdate(userId, req.body, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
     res.send({ message: 'User updated successfully', updatedUser });
   } catch (error) {
     console.error(error);
@@ -158,7 +158,7 @@ router.get('/admin/reports', authenticateToken, async (req, res) => {
     return res.status(403).send({ message: 'Access denied' });
   }
   try {
-    const activeUsers = await User.countDocument({});
+    const activeUsers = await User.countDocuments({});
     const totalAdoptions = await Submission.countDocuments({ status: 'adopted'});
     res.send({ activeUsers, totalAdoptions });
   } catch (error) {
