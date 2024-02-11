@@ -167,4 +167,38 @@ router.get('/admin/reports', authenticateToken, async (req, res) => {
   }
 });
 
+
+router.patch('/admin/editSubmission/:submissionId', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied '});
+  }
+
+  const { submissionId } = req.params;
+  const updateData = req.body // Data update the submission
+
+  try {
+    const updatedSubmission = await Submission.findByIdAndUpdate(submissionId, updateData, { new: true });
+    res.send({ message: 'Submission updated successfully:', updatedSubmission});  
+  } catch (error) {
+    res.status(500).send({ message: 'Error updating submission', error: error.message });
+  }
+});
+
+
+
+router.get('/admin/submissions', authenticateToken, async (req, res) => {
+  if (req.user.role !== 'admin') {
+    return res.status(403).send({ message: 'Access denied' });
+  }
+
+  try {
+    const allSubmissions = await Submission.find({}).populate('giverId');
+    res.send(allSubmissions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error fetching submissions', error: error.message });
+  }
+});
+
+
 module.exports = router;

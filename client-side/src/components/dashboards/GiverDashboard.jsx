@@ -1,10 +1,16 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
 import ParentComponent from '../giver/ParentComponent';
+import GiverApplications from '../giver/GiverApplications';
+
+
+
 
 
 
 export default function GiverDashboard() {
+  
+
   const token = localStorage.getItem('token');
   let userId = null;
 
@@ -15,11 +21,14 @@ export default function GiverDashboard() {
 
   
     
+  
 
   return (
     <div>
       <h1>giver dashboard</h1>
+    
       <ParentComponent userId={userId} />
+      <GiverApplications giverId={userId} />
       
     </div>
   )

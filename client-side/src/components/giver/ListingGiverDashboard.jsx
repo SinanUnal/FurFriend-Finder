@@ -7,7 +7,7 @@ export default function ListingGiverDashboard({ listing, onEdit, onDelete }) {
       {listing.imageUrl && (
         <img 
           src={listing.imageUrl} 
-          alt={`Image of ${listing.animalName}`} 
+          alt={`${listing.animalName}`} 
           style={{ maxWidth: '100%', height: 'auto' }} 
         />
       )}

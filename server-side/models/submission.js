@@ -18,6 +18,7 @@ const submissionSchema = new mongoose.Schema({
   animalType: {
     type: String,
     required: true,
+    enum: ['dog', 'cat', 'fish', 'bird', 'other'],
     trim: true
   },
   healthInfo: String,

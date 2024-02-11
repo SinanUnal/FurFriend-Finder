@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState();
@@ -28,17 +29,28 @@ export default function Login() {
           } 
           // For non-admin users, check their userType
           else {
-            switch (data.user.userType) {
-              case 'adopter':
-                navigate('/adopter-dashboard');
-                break;
-              case 'giver':
-                navigate('/giver-dashboard');
-                break;
-              default:
-                navigate('/adopter-dashboard');
-                break;
+            // switch (data.user.userType) {
+            //   case 'adopter':
+            //     navigate('/adopter-dashboard');
+            //     break;
+            //   case 'giver':
+            //     navigate('/giver-dashboard');
+            //     break;
+            //   default:
+            //     navigate('/adopter-dashboard');
+            //     break;
+            // }
+            const user = data.user;
+            let adopterId, giverId;
+            if (user.userType === 'adopter') {
+              adopterId = user._id;
+              navigate('/adopter-dashboard', { state: { adopterId} });
+            } else if (user.userType === 'giver') {
+              giverId = user._id;
+              navigate('/giver-dashboard', { state: { giverId } });
             }
+            
+
           }
         }
       } else {

@@ -36,7 +36,7 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
       return fileUrl;
     } catch (error) {
       console.error('Error uploading file:', error);
-      throw error; // Throw the error to be handled by the caller
+      throw error; 
     }
   };
 
@@ -45,7 +45,7 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
 
     try {
       let updatedFormData = { ...formData };
-     // Handle image upload only when submitting the form
+     
      // If a new image file is selected, upload it to Firebase and get the URL
      const file = e.target.elements.image?.files[0];
      if (file) {
@@ -142,13 +142,14 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
         onChange={handleChange} 
         placeholder="Animal Age" 
     />
-    <input 
-        type="text" 
-        name="animalType" 
-        value={formData.animalType} 
-        onChange={handleChange} 
-        placeholder="Animal Type" 
-    />
+    <select name="animalType" value={formData.animalType} onChange={handleChange}>
+      <option value="">Select Animal Type</option>
+      <option value="dog">Dog</option>
+      <option value="cat">Cat</option>
+      <option value="fish">Fish</option>
+      <option value="bird">Bird</option>
+      <option value="other">Other</option>
+    </select>
     <textarea 
         name="healthInfo" 
         value={formData.healthInfo} 
