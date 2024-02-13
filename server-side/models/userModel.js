@@ -34,13 +34,17 @@ const userSchema = new mongoose.Schema({
 
         return true; // Password meets all criteria
       },
-      message: 'Password does not meet complexity requirements',
+      message: 'Password does not meet complexity requirements.',
     },
    },
   age: { type: Number, required: true},
   address: { type: String, required: true},
   phoneNumber: { type: String, required: true},
   userType: { type: String, required: true, enum: ['adopter', 'giver'] },
+  favoriteSubmissions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Submission'
+  }]
   // activeSubmission: { type: Number, default: 0 },
 });
 

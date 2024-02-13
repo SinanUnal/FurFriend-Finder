@@ -4,11 +4,16 @@ import axiosWithAuth from '../utils/axiosWithAuth';
 import UserManagement from '../Users/UserManagement';
 import Reports from '../Reports/Reports';
 import AnimalSubmissionForm from '../giver/AnimalSubmissionForm';
+import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
+
+
 
 export default function AdminDashboard() {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
   const [submissions, setSubmissions] = useState([]);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchSubmissions();
@@ -84,11 +89,17 @@ export default function AdminDashboard() {
     }
   };
 
-
+  function logout() {
+    localStorage.clear();
+    navigate('/login');
+  }
 
   return (
     <div>
       <h1>Admin Dashboard</h1>
+      <button className="button" onClick={() => {
+               logout();
+       }}>Logout</button>
       {selectedSubmission && (
         <AnimalSubmissionForm
         initialData={selectedSubmission}

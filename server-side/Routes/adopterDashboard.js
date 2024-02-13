@@ -46,4 +46,75 @@ router.get('/adopterDashboard/applications/:adopterId', authenticateToken, async
   }
 });
 
+router.patch('/adopterDashboard/addToFavorites', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const { submissionId } = req.body;
+  console.log('Received submissionId:', submissionId);
+
+  try {
+    const user = await User.findById(userId);
+    const submission = await Submission.findById(submissionId);
+
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+
+    if (!submission) {
+      return res.status(404).send({ message: 'Submission not found' });
+    }
+
+    if (!user.favoriteSubmissions.includes(submissionId)) {
+      user.favoriteSubmissions.push(submissionId);
+
+
+      await user.save();
+      res.status(200).send({ message: 'Added to favorite successfully' });
+    } else {
+      res.status(400).send({ message: 'Already in favorites' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error updating favorites', error: error.message });
+  }
+});
+
+router.delete('/adopterDashboard/removeFromFavorites', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+  const submissionId = req.query.submissionId;
+  // const { submissionId } = req.body;
+
+  try {
+  
+
+    const user = await User.findById(userId);
+
+    
+    if (!user) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+  
+    
+
+    user.favoriteSubmissions = user.favoriteSubmissions.filter(id => id).filter(id => id.toString() !== submissionId);
+    await user.save();
+    res.status(200).send({ message: 'Removed from favorites successfully' });
+  } catch (error) {
+    console.error("Error in removeFromFavorites:", error);
+    res.status(500).send({ message: 'Error updating favorites', error: error.toString() });
+  }
+});
+
+router.get('/adopterDashboard/favorites', authenticateToken, async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findById(userId).populate('favoriteSubmissions');
+    console.log('User Favorites:', user.favoriteSubmissions);
+    res.status(200).send(user.favoriteSubmissions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error fetching favorites', error: error.message});
+  }
+});
+
 module.exports = router;

@@ -1,0 +1,23 @@
+.password-requirements ul {
+  list-style: none;
+  padding: 0;
+  /* display: flex; */
+  flex-wrap: wrap;
+  gap: 10px; /* Adjust the gap as needed */
+}
+
+.password-requirements li {
+  color: black; /* Neutral color */
+}
+
+.password-requirements li.valid {
+  color: green;
+}
+
+.password-requirements li.invalid {
+  color: red;
+}
+
+.error-message {
+  color: red;
+}

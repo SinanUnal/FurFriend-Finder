@@ -14,6 +14,8 @@ import GiverDashboard from './components/dashboards/GiverDashboard';
 import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
+import FavoriteList from './components/adopter/FavoriteList';
+import ApplicationList from './components/adopter/ApplicationList';
 
 
 const router = createBrowserRouter([
@@ -30,12 +32,20 @@ const router = createBrowserRouter([
     element: <AdminDashboard/>,
   },
   {
+    path: "/giver-dashboard",
+    element: <GiverDashboard/>,
+  },
+  {
     path: "/adopter-dashboard",
     element: <AdopterDashboard/>,
   },
   {
-    path: "/giver-dashboard",
-    element: <GiverDashboard/>,
+    path: "/favorites",
+    element: <FavoriteList/>,
+  },
+  {
+    path: "/applications",
+    element: <ApplicationList />,
   },
   {
     path: "/home",

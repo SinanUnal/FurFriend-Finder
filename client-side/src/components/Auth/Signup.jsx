@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Signup.css';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -14,11 +15,34 @@ export default function Signup() {
     phoneNumber: '',
     userType: ''
   });
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [passwordValidations, setPasswordValidations] = useState({
+    minChar: false,
+    oneUpper: false,
+    oneLower: false,
+    oneNumber: false,
+    oneSpecial: false
+  });
   const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    setPasswordValidations({
+      minChar: formData.password.length >= 6,
+      oneUpper: /[A-Z]/.test(formData.password),
+      oneLower: /[a-z]/.test(formData.password),
+      oneNumber: /[0-9]/.test(formData.password),
+      oneSpecial: /[!@#$%^&*]/.test(formData.password)
+    });
+  }, [formData.password]);
+
+  const getValidationClass = (isValid) => {
+    return formData.password.length === 0 ? '' : isValid ? 'valid' : 'invalid';
+  };
+
 
   function signup() {
     axios.post('http://localhost:5000/signup', formData)
@@ -40,12 +64,19 @@ export default function Signup() {
         }
     })
       .catch((error) => {
-        if (error.response && error.response.status === 409) {
-          const errorMessage = error.response.data.message;
+        if (error.response && error.response.status === 400) {
+          let errorMessage = error.response.data.message;
+          const splitMessage = errorMessage.split('password: ');
+          if (splitMessage.length > 1) {
+            errorMessage = splitMessage[1];
+          }
           setError(errorMessage);
+        } else if (error.response && error.response.status === 409) {
+          
+          setError('Username already exist.');
         } else {
           console.error('Signup error', error);
-          setError(error.message || 'Error during signup');
+          setError("An unexpected error occurred. Please try again later.");
         }
     });
   };
@@ -53,7 +84,7 @@ export default function Signup() {
 
   return (
     <div>
-       <h1>This is Signup page</h1>
+       <h1>Signup page</h1>
       <input 
         type="text"
         name="username"
@@ -72,6 +103,29 @@ export default function Signup() {
         onChange={handleChange}
       />
       <br />
+       
+        <div className="password-requirements">    
+          <strong>Password must contain:</strong>
+          <ul>
+            <li className={getValidationClass(passwordValidations.minChar)}>
+              6 characters minimum
+            </li>
+            <li className={getValidationClass(passwordValidations.oneUpper)}>
+              One uppercase character
+            </li>
+            <li className={getValidationClass(passwordValidations.oneLower)}>
+              One lowercase character
+            </li>
+            <li className={getValidationClass(passwordValidations.oneNumber)}>
+              One number
+            </li>
+            <li className={getValidationClass(passwordValidations.oneSpecial)}>
+              One special character
+            </li>
+          </ul>
+        </div>
+     
+      <br />
       <input 
         type="number"
         name="age"
@@ -88,7 +142,7 @@ export default function Signup() {
         placeholder="Address"
         value={formData.address}
         onChange={handleChange}
-      />
+      />    
       <br />
       <input 
         type="text"
@@ -111,6 +165,7 @@ export default function Signup() {
       </select>
       <br />
       <p className="error-message">{error}</p>
+      {/* {error && <div className="error-message">{error}</div>} */}
       <button
         className="button" 
         onClick={signup}

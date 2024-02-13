@@ -25,7 +25,7 @@ router.post('/signup', async (req, res) => {
 
         const newUser = new User({
           username,
-          password: hashedPassword,
+          password,
           age,
           address,
           phoneNumber,
@@ -36,6 +36,9 @@ router.post('/signup', async (req, res) => {
 
      
       await newUser.validate();
+
+      newUser.password = await bcrypt.hash(password, 10);
+
       await newUser.save();
 
 

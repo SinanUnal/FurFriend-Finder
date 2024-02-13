@@ -5,26 +5,64 @@ import ChatComponent from '../Chat/ChatComponent';
 
 
 export default function GiverApplications({ giverId }) {
- 
-
-
-  const [approvedApplications, setApprovedApplications] = useState([]);
-  // const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState([]);
+  const [fetchType, setFetchType] = useState('pending');
 
   const fetchApplications = useCallback(async () => {
+    const endpoint = fetchType === 'pending'
+      ? `http://localhost:5000/giverDashboard/pendingApplications/${giverId}`
+      : `http://localhost:5000/giverDashboard/approvedApplications/${giverId}`;
+
+
+
     try {
       const axiosInstance = axiosWithAuth();
-      const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/approvedApplications/${giverId}`);
-      setApprovedApplications(response.data);
+      const response = await axiosInstance.get(endpoint);
+      
+      setApplications(response.data);
      
     } catch (error) {
       console.error('Error fetching applications', error);
     }
-  }, [giverId]); // giverId is a dependency
+  }, [giverId, fetchType]); // giverId is a dependency
 
   useEffect(() => {
     fetchApplications();
   }, [fetchApplications]);
+
+  const fetchPendingApplications = useCallback(async () => {
+    try {
+      const axiosInstance = axiosWithAuth();
+      const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/pendingApplications/${giverId}`);
+      if (response.data.length === 0) {
+        // If no pending applications, fetch approved ones
+        setFetchType('approved');
+      } else {
+        setApplications(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching applications', error);
+    }
+  }, [giverId]);
+
+  const fetchApprovedApplications = useCallback(async () => {
+    try {
+      const axiosInstance = axiosWithAuth();
+      const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/approvedApplications/${giverId}`);
+      setApplications(response.data);
+    } catch (error) {
+      console.error('Error fetching applications', error);
+    }
+  }, [giverId]);
+
+  useEffect(() => {
+    if (fetchType === 'pending') {
+      fetchPendingApplications();
+    } else {
+      fetchApprovedApplications();
+    }
+  }, [fetchPendingApplications, fetchApprovedApplications, fetchType]);
+
 
  
   const userType = 'giver';
@@ -33,6 +71,7 @@ export default function GiverApplications({ giverId }) {
     try {
       const axiosInstance = axiosWithAuth();
       await axiosInstance.patch(`http://localhost:5000/giverDashboard/approveApplication/${applicationId}`);
+      setFetchType('approved');
       fetchApplications();
     } catch (error) {
       console.error('Error approving application', error);
@@ -51,24 +90,36 @@ export default function GiverApplications({ giverId }) {
 
   return (
     <div>
-     <h2>Pending Adoption Applications</h2>
-     {approvedApplications.length > 0 ? approvedApplications.map(app => (
+     <h2>{fetchType === 'pending' ? 'Pending' : 'Approved'} Adoption Applications</h2>
+     {applications.length > 0 ? applications.map(app => (
       <div key={app._id}>
-        <p>Adopter ID: {app.adopterId._id}</p>
-        <p>Submission ID: {app.submissionId._id}</p>
+        {/* <p>Adopter ID: {app.adopterId._id}</p>
+        <p>Submission ID: {app.submissionId._id}</p> */}
         <p>Application Status: {app.status}</p>
-        {/* {app.status === 'approved' && (
-            <>
-               {console.log("Rendering ChatComponent for:", app)} */}
-               <ChatComponent adopterId={app.adopterId} giverId={giverId} userType={userType} />
-            {/* </>
-         )} */}
 
+        {app.status === 'approved' && <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={userType} />}
+          {fetchType === 'pending' && (
+            <>
+              <button onClick={() => handleApprove(app._id)}>Approve</button>
+              <button onClick={() => handleReject(app._id)}>Reject</button>
+            </>
+          )}
+{/* 
         <button onClick={() => handleApprove(app._id)}>Approve</button>
-        <button onClick={() => handleReject(app._id)}>Reject</button>
+        <button onClick={() => handleReject(app._id)}>Reject</button> */}
       </div> 
      )) : <p>No pending applications.</p>} 
+     <button onClick={() => setFetchType(fetchType === 'pending' ? 'approved' : 'pending')}>
+  {fetchType === 'pending' ? 'Show Approved Applications' : 'Show Pending Applications'}
+</button>
+
     </div>
   );
 }
 
+ {/* {app.status === 'approved' && (
+            <>
+               {console.log("Rendering ChatComponent for:", app)} */}
+              //  <ChatComponent adopterId={app.adopterId} giverId={giverId} userType={userType} />
+            {/* </>
+         )} */}
