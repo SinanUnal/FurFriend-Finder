@@ -15,6 +15,13 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
   
 
   useEffect(() => {
+    console.log("Adopter ID in ChatComponent:", adopterId);
+    console.log("Giver ID in ChatComponent:", giverId);
+
+    if (!adopterId || !giverId) {
+      console.error("Adopter ID or Giver ID is undefined.");
+      return;
+    }
     
     const fetchUsernames = async () => {
       
@@ -77,7 +84,7 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
   // }, [socket]);
 
   const sendMessage = () => {
-    if (message.trim()) {
+    if (message.trim()) {    //return; 
       // const sender = adopterUsername ? adopterUsername : giverUsername;
       let senderUsername;
 
@@ -126,7 +133,7 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
         onKeyDown={handleKeyDown}
         placeholder='Type a message...'
        /> 
-       <button onClick={sendMessage}>Send</button>
+       <button onClick={sendMessage} disabled={!message.trim()}>Send</button>
     </div>
   );
 };

@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-export default function ListingGiverDashboard({ listing, onEdit, onDelete }) {
+
+
+export default function ListingGiverDashboard({listing, onEdit, onDelete }) {
+ 
+
   return (
     <div>
+  
       <h3>{listing.animalName}</h3>
       {listing.imageUrl && (
         <img 
@@ -19,3 +24,7 @@ export default function ListingGiverDashboard({ listing, onEdit, onDelete }) {
     </div>
   )
 }
+
+
+
+// listing, onEdit, onDelete 

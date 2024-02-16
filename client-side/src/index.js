@@ -16,6 +16,10 @@ import About from './components/About';
 import Contact from './components/Contact';
 import FavoriteList from './components/adopter/FavoriteList';
 import ApplicationList from './components/adopter/ApplicationList';
+import AnimalSubmissionFormPage from './components/giver/AnimalSubmissionFormPage';
+import CurrentListingsPage from './components/giver/CurrentListingsPage';
+import AdoptionApplicationsPage from './components/giver/AdoptionApplicationsPage';
+import AdopterApplicationsPage from './components/adopter/AdopterApplicationsPage';
 
 
 const router = createBrowserRouter([
@@ -33,11 +37,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/giver-dashboard",
-    element: <GiverDashboard/>,
+    element: <GiverDashboard/>
+  },
+  {
+    path: "/giver-dashboard/submission-form",
+    element: <AnimalSubmissionFormPage />,
+  },
+  {
+    path: "/giver-dashboard/current-listings/:userId",
+    element: <CurrentListingsPage />,
+  },
+  {
+    path: "/giver-dashboard/applications/:userId",
+    element: <AdoptionApplicationsPage />,
   },
   {
     path: "/adopter-dashboard",
     element: <AdopterDashboard/>,
+  },
+  {
+    path: "/adopter-dashboard/your-applications",
+    element: <AdopterApplicationsPage/>,
   },
   {
     path: "/favorites",
