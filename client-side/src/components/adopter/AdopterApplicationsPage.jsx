@@ -1,23 +1,37 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState,  useEffect } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
-import { jwtDecode } from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode';
 import ChatComponent from '../Chat/ChatComponent';
+import { AuthContext } from '../Auth/Authcontext';
+import { useContext } from 'react';
+
+
 
 
 export default function AdopterApplicationsPage() {
   const [applications, setApplications] = useState([]);
-  const [adopterId, setAdopterId] = useState(null);
+  const { adopterId } = useContext(AuthContext);
+  // const [adopterId, setAdopterId] = useState(null);
+   
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     const decoded = jwtDecode(token);
+  //     setAdopterId(decoded.id); 
+  //     fetchApplications(decoded.id);
+  //   }
+  //   // fetchAnimals();
+  // }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decoded = jwtDecode(token);
-      setAdopterId(decoded.id); 
-      fetchApplications(decoded.id);
+    if (adopterId) {
+      fetchApplications(adopterId);
     }
-    // fetchAnimals();
-  }, []);
+  }, [adopterId]);
+
+
 
   const fetchApplications = async (adopterId) => {
     try {

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
+import { useParams } from 'react-router-dom';
+import { AuthContext } from '../Auth/Authcontext';
 
-export default function AdoptionApplicationForm({ submissionId, adopterId }) {
+export default function AdoptionApplicationForm() {
+  const { adopterId } = useContext(AuthContext);
+  const { submissionId } = useParams();
   const [formData, setFormData] = useState({
     age: '',
     homeEnvironment: '',

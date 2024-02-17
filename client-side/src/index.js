@@ -20,6 +20,8 @@ import AnimalSubmissionFormPage from './components/giver/AnimalSubmissionFormPag
 import CurrentListingsPage from './components/giver/CurrentListingsPage';
 import AdoptionApplicationsPage from './components/giver/AdoptionApplicationsPage';
 import AdopterApplicationsPage from './components/adopter/AdopterApplicationsPage';
+import { AuthProvider } from './components/Auth/Authcontext';
+import AdoptionApplicationForm from './components/adopter/AdoptionApplicationForm';
 
 
 const router = createBrowserRouter([
@@ -56,11 +58,15 @@ const router = createBrowserRouter([
     element: <AdopterDashboard/>,
   },
   {
+    path: "/adoption-application/:submissionId",
+    element: <AdoptionApplicationForm />,
+  },
+  {
     path: "/adopter-dashboard/your-applications",
     element: <AdopterApplicationsPage/>,
   },
   {
-    path: "/favorites",
+    path: "/adopter-dashboard/favorites",
     element: <FavoriteList/>,
   },
   {
@@ -87,7 +93,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-     <RouterProvider router={router} />
+     <AuthProvider>
+       <RouterProvider router={router} />
+     </AuthProvider>
   </React.StrictMode>
 );
 
