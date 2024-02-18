@@ -25,7 +25,7 @@ import AdoptionApplicationForm from './components/adopter/AdoptionApplicationFor
 import UserProfile from './components/UserProfile/UserProfile';
 import PublicProfile from './components/UserProfile/PublicProfile';
 import AdoptedAnimals from './components/adopter/AdoptedAnimal';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const router = createBrowserRouter([
   {

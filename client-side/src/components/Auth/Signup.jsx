@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -83,97 +84,115 @@ export default function Signup() {
 
 
   return (
-    <div>
-       <h1>Signup page</h1>
-      <input 
-        type="text"
-        name="username"
-        className="input-field" 
-        placeholder="Username"
-        value={formData.username}
-        onChange={handleChange}
-      />
-      <br />
-      <input 
-        type="password"
-        name="password"
-        className="input-field"
-        placeholder="Password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-      <br />
-       
-        <div className="password-requirements">    
-          <strong>Password must contain:</strong>
-          <ul>
-            <li className={getValidationClass(passwordValidations.minChar)}>
-              6 characters minimum
-            </li>
-            <li className={getValidationClass(passwordValidations.oneUpper)}>
-              One uppercase character
-            </li>
-            <li className={getValidationClass(passwordValidations.oneLower)}>
-              One lowercase character
-            </li>
-            <li className={getValidationClass(passwordValidations.oneNumber)}>
-              One number
-            </li>
-            <li className={getValidationClass(passwordValidations.oneSpecial)}>
-              One special character
-            </li>
-          </ul>
+    <div className='container mt-5'>
+      <div className='row'>
+        <div className='col-md-6 offset-md-3'>
+          <h1 className='text-center'>Signup page</h1>
+          <form>
+            <div className='col-12 mb-3'>
+              <input 
+                type="text"
+                name="username"
+                className="form-control" 
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='col-12 mb-3'>
+              <input 
+                type="password"
+                name="password"
+                className="form-control"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='mb-3'>
+            <div      className="password-requirements">    
+              <strong>Password must contain:</strong>
+              <ul>
+                <li className={getValidationClass(passwordValidations.minChar)}>
+                6 characters minimum
+                </li>
+                <li className={getValidationClass(passwordValidations.oneUpper)}>
+                One uppercase character
+                </li>
+                <li className={getValidationClass(passwordValidations.oneLower)}>
+                One lowercase character
+                </li>
+                <li className={getValidationClass(passwordValidations.oneNumber)}>
+                One number
+                        </li>
+                <li className={getValidationClass(passwordValidations.oneSpecial)}>
+                One special character
+                </li>
+              </ul>
+            </div>
+
+            </div>
+            <div className='col-12 mb-3'>
+              <input 
+                type="number"
+                name="age"
+                className="form-control"
+                placeholder="Age"
+                value={formData.age}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='col-12 mb-3'>
+              <input 
+                type="text"
+                name="address"
+                className="form-control"
+                placeholder="Address"
+                value={formData.address}
+                onChange={handleChange}
+              /> 
+            </div>
+            <div className='col-12 mb-3'>
+              <input 
+                type="text"
+                name="phoneNumber"
+                className="form-control"
+                placeholder="Phone Number"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='mb-3'>
+              <select
+                name="userType"
+                className="input-field"
+                value={formData.userType}
+                onChange={handleChange}
+                >
+                <option         value="">Select your intention</option>
+                <option value="adopter">Adopt a Pet</option>
+                <option value="giver">Give a Pet for Adoption</option>
+              </select>
+            </div>
+            <div className='mb-3'>
+              <p className="error-message">{error}</p>
+            </div>
+            <div className='mb-3'>           
+              <button
+                className="btn btn-primary w-100"
+                type='button' 
+                onClick={signup}
+              >
+               Signup
+              </button>
+            </div>
+          </form>
+      
+          <p className='text-center'>You already have an account? <Link to="/login" className="link">Login</Link>
+          </p>
         </div>
-     
-      <br />
-      <input 
-        type="number"
-        name="age"
-        className="input-field"
-        placeholder="Age"
-        value={formData.age}
-        onChange={handleChange}
-      />
-      <br />
-      <input 
-        type="text"
-        name="address"
-        className="input-field"
-        placeholder="Address"
-        value={formData.address}
-        onChange={handleChange}
-      />    
-      <br />
-      <input 
-        type="text"
-        name="phoneNumber"
-        className="input-field"
-        placeholder="Phone Number"
-        value={formData.phoneNumber}
-        onChange={handleChange}
-      />
-      <br />
-      <select
-        name="userType"
-        className="input-field"
-        value={formData.userType}
-        onChange={handleChange}
-      >
-        <option value="">Select your intention</option>
-        <option value="adopter">Adopt a Pet</option>
-        <option value="giver">Give a Pet for Adoption</option>
-      </select>
-      <br />
-      <p className="error-message">{error}</p>
-      {/* {error && <div className="error-message">{error}</div>} */}
-      <button
-        className="button" 
-        onClick={signup}
-      >
-        Signup
-      </button>
-      <br />
-      <p>You already have an account? <Link to="/login" className="link">Login</Link></p>
+      </div>
+      
     </div>
   )
 }
