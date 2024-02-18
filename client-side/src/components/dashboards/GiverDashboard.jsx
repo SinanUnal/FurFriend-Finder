@@ -1,10 +1,9 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
 import GiverDashboardStats from '../giver/GiverDashboardStats';
-// import ParentComponent from '../giver/ParentComponent';
-// import GiverApplications from '../giver/GiverApplications';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+
 
 
 
@@ -33,7 +32,7 @@ export default function GiverDashboard() {
     <div>
       <h1>giver dashboard</h1>
       <GiverDashboardStats userId={userId} />
-      
+      <Link to={`/user/profile/${userId}`}>Profile</Link>
       <nav>
         <ul>
           <li><Link to="/giver-dashboard/submission-form">Animal Submission Form</Link></li>
@@ -41,19 +40,15 @@ export default function GiverDashboard() {
           <li><Link to={`/giver-dashboard/applications/${userId}`}>Adoption Applications</Link></li>
         </ul>
       </nav>
-      {/* <Link to={`/giver-dashboard/current-listings/${userId}`}>View Current Listings</Link>
-    <Link to={`/giver-dashboard/applications/${userId}`}>View Adoption Applications</Link> */}
+
+  
+   
     <button className="button" onClick={logout}>Logout</button>
    
 
 
 
-      {/* <button className="button" onClick={() => {
-               logout();
-       }}>Logout</button>
-      <ParentComponent userId={userId} />
-      <GiverApplications giverId={userId} />
-       */}
+  
     </div>
   )
 }

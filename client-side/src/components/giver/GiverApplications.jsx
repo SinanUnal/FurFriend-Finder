@@ -2,10 +2,11 @@ import React from 'react';
 import { useEffect, useState, useCallback } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import ChatComponent from '../Chat/ChatComponent';
+import { Link } from 'react-router-dom';
 
 
 export default function GiverApplications({ giverId }) {
-  console.log("GiverId in GiverApplications:", giverId);
+  
   const [applications, setApplications] = useState([]);
   const [fetchType, setFetchType] = useState('pending');
 
@@ -34,9 +35,7 @@ export default function GiverApplications({ giverId }) {
       console.log("Giver ID is undefined.");
     }
   }, [fetchApplications, giverId]);
-  // useEffect(() => {
-  //   fetchApplications();
-  // }, [fetchApplications]);
+  
 
   const fetchPendingApplications = useCallback(async () => {
     try {
@@ -97,16 +96,27 @@ export default function GiverApplications({ giverId }) {
     }
   };
 
+ 
+
   return (
     <div>
      <h2>{fetchType === 'pending' ? 'Pending' : 'Approved'} Adoption Applications</h2>
      {applications.length > 0 ? applications.map(app => (
       <div key={app._id}>
-        
-        <p>Application Status: {app.status}</p>
+          <h3>Application Details</h3>
+          <p>Animal Name: {app.submissionId.animalName}</p>
+          <p>Applicant's Age: {app.age}</p>
+          <p>Home Environment: {app.homeEnvironment}</p>
+          <p>Pet Experience: {app.petExperience}</p>
+          <p>Application Status: {app.status}</p>
+          <Link to={`/user/public-profile/${app.adopterId._id}`}>View Adopter's Profile</Link>
 
-        {/* {app.status === 'approved' && app.adopterId && giverId && ( <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={"giver"} /> )} */}
-        {app.status === 'approved' && <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={'giver'} />}
+        {app.status === 'approved' && (
+      
+          <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={'giver'} />
+       
+        )}
+
           {fetchType === 'pending' && (
             <>
               <button onClick={() => handleApprove(app._id)}>Approve</button>
@@ -117,8 +127,8 @@ export default function GiverApplications({ giverId }) {
       </div> 
      )) : <p>No pending applications.</p>} 
      <button onClick={() => setFetchType(fetchType === 'pending' ? 'approved' : 'pending')}>
-  {fetchType === 'pending' ? 'Show Approved Applications' : 'Show Pending Applications'}
-</button>
+     {fetchType === 'pending' ? 'Show Approved     Applications' : 'Show Pending Applications'}
+     </button>
 
     </div>
   );

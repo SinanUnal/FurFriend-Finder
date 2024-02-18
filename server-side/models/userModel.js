@@ -44,7 +44,8 @@ const userSchema = new mongoose.Schema({
   favoriteSubmissions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Submission'
-  }]
+  }],
+  profilePicture: { type: String, default: '' }
   // activeSubmission: { type: Number, default: 0 },
 });
 

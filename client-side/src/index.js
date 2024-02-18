@@ -22,6 +22,9 @@ import AdoptionApplicationsPage from './components/giver/AdoptionApplicationsPag
 import AdopterApplicationsPage from './components/adopter/AdopterApplicationsPage';
 import { AuthProvider } from './components/Auth/Authcontext';
 import AdoptionApplicationForm from './components/adopter/AdoptionApplicationForm';
+import UserProfile from './components/UserProfile/UserProfile';
+import PublicProfile from './components/UserProfile/PublicProfile';
+import AdoptedAnimals from './components/adopter/AdoptedAnimal';
 
 
 const router = createBrowserRouter([
@@ -32,6 +35,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login/>,
+  },
+  {
+    path: "/user/profile/:userId",
+    element: <UserProfile />,
+  },
+  {
+    path: "/user/public-profile/:userId",
+    element: <PublicProfile />,
   },
   {
     path: "/admin-dashboard",
@@ -56,6 +67,10 @@ const router = createBrowserRouter([
   {
     path: "/adopter-dashboard",
     element: <AdopterDashboard/>,
+  },
+  {
+    path: "/adopter-dashboard/adopted-animals/:userId",
+    element: <AdoptedAnimals />,
   },
   {
     path: "/adoption-application/:submissionId",

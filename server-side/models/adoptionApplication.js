@@ -11,7 +11,10 @@ const adoptionApplicationSchema = new mongoose.Schema({
     ref: 'Submission',
     required: true
   },
-  age: Number,
+  age: {
+    type: Number,
+    required: true
+  },
   homeEnvironment: "String",
   petExperience: 'String',
   status: {

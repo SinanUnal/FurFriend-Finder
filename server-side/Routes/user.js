@@ -21,7 +21,7 @@ router.post('/signup', async (req, res) => {
         return res.status(409).send({ message: 'Username already exits' });
       } else {
          
-      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    
 
         const newUser = new User({
           username,
@@ -75,5 +75,35 @@ router.get('/user/:userId', async (req, res) => {
 });
 
 
+
+router.get('/user/profile/:userId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).send('User not found');
+    res.send(user);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
+
+router.patch('/user/profile/:userId', async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
+    res.send(user);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
+
+
+router.get('/user/public-profile/:userId', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId).select('-password -email -otherSensitiveData');
+    if (!user) return res.status(404).send('User not found');
+    res.send(user);
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;

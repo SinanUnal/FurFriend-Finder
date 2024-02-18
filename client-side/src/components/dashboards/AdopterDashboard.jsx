@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import SearchFilter from '../adopter/SearchFilter';
-// import AdoptionApplicationForm from '../adopter/AdoptionApplicationForm';
+
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-// import { AuthContext } from '../Auth/Authcontext';
+import { AuthContext } from '../Auth/Authcontext';
 
 
 
 
 
 export default function AdopterDashboard() {
-  // const { adopterId } = useContext(AuthContext);
+  const { adopterId } = useContext(AuthContext);
   const navigate = useNavigate();
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [error, setError] = useState('');
-  // const [selectedAnimal, setSelectedAnimal] = useState(null);
+
  
   
 
@@ -42,9 +42,7 @@ export default function AdopterDashboard() {
   const handleSelectAnimal = (animalId) => {
     navigate(`/adoption-application/${animalId}`);
   };
-  // const handleSelectAnimal = (animal) => {
-  //   setSelectedAnimal(animal);
-  // };
+
 
   const addToFavorites = async (submissionId) => {
     try {
@@ -70,6 +68,8 @@ export default function AdopterDashboard() {
           <h1>Adopter Dashboard</h1>
           <Link to="/adopter-dashboard/your-applications">Your Applications</Link>
           <Link to="/adopter-dashboard/favorites">View Favorites</Link>
+          <Link to={`/adopter-dashboard/adopted-animals/${adopterId}`}>View Adopted Animals</Link>
+          <Link to={`/user/profile/${adopterId}`}>Profile</Link>
           <SearchFilter onSearch={fetchAnimals }/>
           {feedbackMessage && <div className="success-message">{feedbackMessage}</div>}
           {error && <div className="error-message">{error}</div>}
@@ -94,6 +94,7 @@ export default function AdopterDashboard() {
               <p>Type: {animal.animalType}</p>
               <p>Age: {animal.animalAge}</p>
               <p>Health: {animal.healthInfo}</p>
+              <Link to={`/user/public-profile/${animal.giverId}`}>View Giver's Profile</Link>
               <button onClick={() => handleSelectAnimal(animal._id)}>Adopt This Animal</button>
               <button onClick={() => addToFavorites(animal._id)}>Add to Favorites</button>
 
@@ -103,13 +104,7 @@ export default function AdopterDashboard() {
 
        
 
-          {/* {selectedAnimal && adopterId && (
-            <AdoptionApplicationForm 
-            submissionId={selectedAnimal._id} 
-            adopterId={adopterId}
-          />
-          )} */}
-
+      
         
          
          

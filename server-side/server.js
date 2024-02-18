@@ -14,16 +14,13 @@ const giverDashboard = require('./Routes/giverDashboard');
 const adopterDashboard = require('./Routes/adopterDashboard');
 const adoptionApplication = require('./Routes/adoptionApplication');
 const Message = require('./models/messageModel');
-const MessageRoute = require('./Routes/messages')
+const MessageRoute = require('./Routes/messages');
+
+
 
 
 
 const cors = require('cors');
-// const Message = require('./models/messageModel');
-// const authenticateToken = require('./middleware/authentication');
-// app.use(cors({
-//   origin:'*',
-// }));
 
 app.use(cors());
 
@@ -45,6 +42,7 @@ app.use(giverDashboard);
 app.use(adopterDashboard);
 app.use(adoptionApplication);
 app.use(MessageRoute);
+
 
 
 io.on('connection', (socket) => {
@@ -69,9 +67,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  // socket.on('disconnect', () => {
-  //   console.log('Client disconnected');
-  // });
+  
 });
 
 
