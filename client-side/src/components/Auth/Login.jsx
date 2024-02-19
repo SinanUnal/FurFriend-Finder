@@ -83,6 +83,7 @@ export default function Login() {
             </div>
             <div className='mb-3'>
               <button
+                type='button'
                 className="btn btn-primary w-100" 
                 onClick={() => {
                   login();
