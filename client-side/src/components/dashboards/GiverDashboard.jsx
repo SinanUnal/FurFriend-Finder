@@ -3,13 +3,18 @@ import { jwtDecode } from 'jwt-decode';
 import GiverDashboardStats from '../giver/GiverDashboardStats';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
-
+import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, Box, Button } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material/styles';
+import { useMediaQuery } from '@mui/material';
 
 
 
 
 export default function GiverDashboard() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const token = localStorage.getItem('token');
   let userId = null;
@@ -27,23 +32,73 @@ export default function GiverDashboard() {
     navigate('/login');
   }
 
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const menuItems = [
+    
+    { text: 'Animal Submission Form', path: '/giver-dashboard/submission-form'},
+    { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
+    { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
+    { text: 'Profile', path: `/user/profile/${userId}`},
+    { text: 'Logout', action: logout }
+  ];
+
+  const buttonStyle = {
+    fontWeight: 'bold',
+    textTransform: 'none',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '1rem',
+    margin: '0 10px',
+  };
+
 
   return (
     <div>
-      <h1>giver dashboard</h1>
+       <AppBar position="static">
+        <Toolbar>
+          {isMobile && (
+            <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setDrawerOpen(true) }>
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Giver Dashboard
+          </Typography>
+          {!isMobile && (
+            <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
+              {menuItems.map((item, index) => (
+                <Button key={index} color="inherit" component={Link} to={item.path} sx={buttonStyle} onClick={item.action}>
+                {item.text}
+              </Button>
+              ))}
+            </Box>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+        <Box sx={{ width: 250 }} role="presentation" onClick={() => setDrawerOpen(false)} onKeyDown={() => setDrawerOpen(false)}>
+          <List>
+            {menuItems.map((item, index) => (
+              <ListItem button 
+                key={index} 
+                component={Link} 
+                to={item.path}
+                onClick={item.action}
+              >
+                <ListItemText primary={item.text} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+
+      <h1>Giver Dashboard</h1>
       <GiverDashboardStats userId={userId} />
-      <Link to={`/user/profile/${userId}`}>Profile</Link>
-      <nav>
-        <ul>
-          <li><Link to="/giver-dashboard/submission-form">Animal Submission Form</Link></li>
-          <li><Link to={`/giver-dashboard/current-listings/${userId}`}>Current Listings</Link></li>
-          <li><Link to={`/giver-dashboard/applications/${userId}`}>Adoption Applications</Link></li>
-        </ul>
-      </nav>
 
   
    
-    <button className="button" onClick={logout}>Logout</button>
+    
    
 
 

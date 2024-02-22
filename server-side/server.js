@@ -45,30 +45,76 @@ app.use(MessageRoute);
 
 
 
+const userSocketMap = {};
+
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  // Handle user registration on connect
+  socket.on('register', (userId) => {
+    userSocketMap[userId] = socket.id;
+  });
 
   socket.on('chat message', async (msg) => {
     try {
-      
-    const newMessage = new Message({
-      sender: msg.sender,
-      message: msg.message,
-      timestamp: new Date()
-    });
-    await newMessage.save();
+      const newMessage = new Message({
+        senderId: msg.senderId,
+        recipientId: msg.recipientId,
+        message: msg.message,
+        timestamp: new Date()
+      });
+      await newMessage.save();
 
-    console.log('Message saved:', newMessage);
+      // Emit the message to sender and recipient only
+      const senderSocket = userSocketMap[msg.senderId];
+      const recipientSocket = userSocketMap[msg.recipientId];
 
-    io.emit('chat message', msg);
-    console.log('Message emitted to all clients:', msg);
+      if (senderSocket) {
+        io.to(senderSocket).emit('chat message', newMessage);
+      }
+      if (recipientSocket) {
+        io.to(recipientSocket).emit('chat message', newMessage);
+      }
     } catch (error) {
       console.error('Error saving message', error);
     }
   });
 
-  
+  // Remove the user from the map on disconnect
+  socket.on('disconnect', () => {
+    for (const [userId, socketId] of Object.entries(userSocketMap)) {
+      if (socketId === socket.id) {
+        delete userSocketMap[userId];
+        break;
+      }
+    }
+  });
 });
+
+
+// io.on('connection', (socket) => {
+//   console.log('New client connected');
+
+//   socket.on('chat message', async (msg) => {
+//     try {
+      
+//     const newMessage = new Message({
+//       senderId: msg.senderId,
+//       recipientId: msg.recipientId,
+//       message: msg.message,
+//       timestamp: new Date()
+//     });
+//     await newMessage.save();
+
+//     console.log('Message saved:', newMessage);
+
+//     io.emit('chat message', msg);
+//     console.log('Message emitted to all clients:', msg);
+//     } catch (error) {
+//       console.error('Error saving message', error);
+//     }
+//   });
+
+  
+// });
 
 
 const port = process.env.PORT || 5000;

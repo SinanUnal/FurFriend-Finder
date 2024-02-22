@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { useContext } from 'react';
+// import { AuthContext } from './Authcontext';
+// import { jwtDecode } from 'jwt-decode';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -12,46 +16,74 @@ export default function Login() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
+  // const { updateAdopterId } = useContext(AuthContext);
 
   function login() {
-    axios.post('http://localhost:5000/login', {
-      username: username,
-      password: password
-    })
+    axios.post('http://localhost:5000/login', { username, password })
     .then(({ data }) => {
-      console.log(data);
       if (data.message === 'Login is successful') {
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('user', JSON.stringify(data.user));
-          
-          // Check the user's role and redirect accordingly
-          if (data.role === 'admin') {
-            navigate('/admin-dashboard');
-          } 
-          // For non-admin users, check their userType
-          else {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        console.log('Token set in localStorage:', localStorage.getItem('token'));
         
-            const user = data.user;
-            let adopterId, giverId;
-            if (user.userType === 'adopter') {
-              adopterId = user._id;
-              navigate('/adopter-dashboard', { state: { adopterId} });
-            } else if (user.userType === 'giver') {
-              giverId = user._id;
-              navigate('/giver-dashboard', { state: { giverId } });
-            }
-            
 
-          }
+        window.dispatchEvent(new CustomEvent('token-updated'));
+        
+        // const decoded = jwtDecode(data.token);
+        // updateAdopterId(decoded.id);
+        
+        // Redirect based on user role
+        if (data.role === 'admin') {
+          navigate('/admin-dashboard', { replace: true });
+        } else if (data.user.userType === 'adopter') {
+          navigate('/adopter-dashboard');
+        } else if (data.user.userType === 'giver') {
+          navigate('/giver-dashboard/submission-form');
         }
       } else {
         setError(data.message);
       }
     }).catch(error => {
-      console.error('Login error', error);
       setError(error.response?.data?.message || 'Error during login');
     });
+    // axios.post('http://localhost:5000/login', {
+    //   username: username,
+    //   password: password
+    // })
+    // .then(({ data }) => {
+    //   console.log(data);
+    //   if (data.message === 'Login is successful') {
+    //     if (data.token) {
+    //       localStorage.setItem('token', data.token);
+    //       localStorage.setItem('user', JSON.stringify(data.user));
+          
+    //       // Check the user's role and redirect accordingly
+    //       if (data.role === 'admin') {
+    //         navigate('/admin-dashboard');
+    //       } 
+    //       // For non-admin users, check their userType
+    //       else {
+        
+    //         const user = data.user;
+    //         let adopterId, giverId;
+    //         if (user.userType === 'adopter') {
+    //           adopterId = user._id;
+    //           navigate('/adopter-dashboard', { state: { adopterId} });
+    //         } else if (user.userType === 'giver') {
+    //           giverId = user._id;
+    //           navigate('/giver-dashboard', { state: { giverId } });
+    //         }
+            
+
+    //       }
+    //     }
+    //   } else {
+    //     setError(data.message);
+    //   }
+    // }).catch(error => {
+    //   console.error('Login error', error);
+    //   setError(error.response?.data?.message || 'Error during login');
+    // });
   }
 
   return (

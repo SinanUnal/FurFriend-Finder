@@ -30,6 +30,13 @@ router.get('/adopterDashboard/animals', async (req, res) => {
 });
 
 router.get('/adopterDashboard/applications/:adopterId', authenticateToken, async (req, res) => {
+  console.log('URL adopterId:', req.params.adopterId);
+  console.log('Token user ID:', req.user.id);
+  
+  if (req.params.adopterId !== req.user.id) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
+
   try {
     const applications = await AdoptionApplication.find({ adopterId: req.params.adopterId }). populate({
       path: 'submissionId',
@@ -118,27 +125,27 @@ router.get('/adopterDashboard/favorites', authenticateToken, async (req, res) =>
 });
 
 
-// router.get('/adopterDashboard/adoptedAnimals/:adopterId', authenticateToken, async (req, res) => {
-//   try {
-//     const approvedApplications = await AdoptionApplication.find({
-//       adopterId: req.params.adopterId,
-//       status: 'approved'
-//     }).select('submissionId');
+router.get('/adopterDashboard/adoptedAnimals/:adopterId', authenticateToken, async (req, res) => {
+  try {
+    const approvedApplications = await AdoptionApplication.find({
+      adopterId: req.params.adopterId,
+      status: 'approved'
+    }).select('submissionId');
 
-//     // Extract submission IDs
-//     const submissionIds = approvedApplications.map(app => app.submissionId);
+    // Extract submission IDs
+    const submissionIds = approvedApplications.map(app => app.submissionId);
 
-//     // Find all adopted submissions
-//     const adoptedSubmissions = await Submission.find({
-//       _id: { $in: submissionIds },
-//       status: 'adopted'
-//     }).populate('giverId');
+    // Find all adopted submissions
+    const adoptedSubmissions = await Submission.find({
+      _id: { $in: submissionIds },
+      status: 'adopted'
+    }).populate('giverId');
 
-//     res.send(adoptedSubmissions);
-//   } catch (error) {
-//     res.status(500).send({ message: 'Error fetching adopted animals', error: error.message });
-//   }
-// });
+    res.send(adoptedSubmissions);
+  } catch (error) {
+    res.status(500).send({ message: 'Error fetching adopted animals', error: error.message });
+  }
+});
 
 
 

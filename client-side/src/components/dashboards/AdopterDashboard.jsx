@@ -7,9 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Auth/Authcontext';
 
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -19,9 +17,10 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import SearchOffIcon from '@mui/icons-material/SearchOff';
+import { CircularProgress, Typography, Box } from '@mui/material';
+import { Card, CardContent, CardActions, CardMedia, Grid, Alert } from '@mui/material';
 
-
-import './AdopterDashboard.css';
 
 
 
@@ -37,22 +36,10 @@ export default function AdopterDashboard() {
   const [error, setError] = useState('');
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [tabValue, setTabValue] = React.useState('one');
-  
-
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
-  };
-
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
+ 
 
   const menuItems = [
-    { text: 'Your Applications', path: '/adopter-dashboard/your-applications' },
+    { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
     { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
     { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${adopterId}` },
     { text: 'Profile', path: `/user/profile/${adopterId}` },
@@ -90,7 +77,8 @@ export default function AdopterDashboard() {
      
     } catch (error) {
       console.error('Error adding to favorites:', error.response?.data?.message);
-      setError('Error adding to favorites');
+      setError("Favorite not added: This animal is already in your list."
+      );
     }
   };
 
@@ -98,7 +86,34 @@ export default function AdopterDashboard() {
     localStorage.clear();
     navigate('/login');
   }
-  
+
+
+  const cardStyles = {
+    maxWidth: 345,
+    margin: 2,
+    backgroundColor: '#f5f5f5', 
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)', 
+    transition: '0.3s', 
+    '&:hover': {
+      boxShadow: '0 8px 16px 0 rgba(0,0,0,0.3)' 
+    }
+  };
+
+  const cardMediaStyles = {
+    height: 200, 
+  };
+
+
+
+  const buttonStyle = {
+    fontWeight: 'bold',
+    textTransform: 'none',
+    fontFamily: 'Arial, sans-serif',
+    fontSize: '1rem',
+    margin: '0 10px',
+  };
+
+
 
   return (
         <div>
@@ -126,6 +141,7 @@ export default function AdopterDashboard() {
                   component={item.path ? Link : 'button'} 
                   to={item.path} 
                   onClick={item.action}
+                  sx={buttonStyle}
                 >
                   {item.text}
                 </Button>
@@ -155,6 +171,7 @@ export default function AdopterDashboard() {
                   component={item.path ? Link : 'button'} 
                   to={item.path} 
                   onClick={item.action}
+                  
                 >
                   <ListItemText primary={item.text} />
                 </ListItem>
@@ -165,36 +182,75 @@ export default function AdopterDashboard() {
       )}
 
 <SearchFilter onSearch={fetchAnimals }/>
-          {feedbackMessage && <div className="success-message">{feedbackMessage}</div>}
-          {error && <div className="error-message">{error}</div>}
-          {loading && <p>Loading...</p>}
+          {feedbackMessage && !error && (
+            <Alert severity="success" sx={{ margin: 2 }}>
+               {feedbackMessage}
+            </Alert>
+          )}
+          {error &&  (
+            <Alert severity="error" sx={{ margin: 2 }}>
+              {error}
+            </Alert>
+          )}
+          {loading && (
+          <Box display="flex"     justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
+          <CircularProgress />
+          <Typography variant="h6" color="textSecondary" mt={2}>
+            Loading...
+          </Typography>
+        </Box>
+      )}
 
-          {error && <p>{error}</p>}
 
           {searchPerformed && !loading && !error && animals.length === 0 && (
-            <p>No animals found matching your criteria.</p>
-          )}  
+        <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
+          <SearchOffIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+          <Typography variant="h6" color="textSecondary">
+            No animals found matching your criteria.
+          </Typography>
+        </Box>
+      )} 
           
           
-          {!loading && !error && animals.map(animal => (
-            <div key={animal._id}>
-               {animal.imageUrl && 
-                <img 
-                  src={animal.imageUrl} 
-                  alt={animal.animalName} 
-                  style={{ width: '100px', height: '100px' }} 
-                />}
-              <h3>{animal.animalName}</h3>
-              <p>Type: {animal.animalType}</p>
-              <p>Age: {animal.animalAge}</p>
-              <p>Health: {animal.healthInfo}</p>
-              <Link to={`/user/public-profile/${animal.giverId}`}>View Giver's Profile</Link>
-              <button onClick={() => handleSelectAnimal(animal._id)}>Adopt This Animal</button>
-              <button onClick={() => addToFavorites(animal._id)}>Add to Favorites</button>
 
+      <Grid container spacing={2}>
+    {!loading && !error && animals.map(animal => (
+      <Grid item xs={12} sm={6} md={4} lg={3} key={animal._id}>
+        <Card sx={cardStyles}>
+          {animal.imageUrl && 
+            <CardMedia
+              component="img"
+              sx={cardMediaStyles}
+              image={animal.imageUrl}
+              alt={animal.animalName}
+            />
+          }
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {animal.animalName}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Type: {animal.animalType}<br/>
+              Age: {animal.animalAge}<br/>
+              Health: {animal.healthInfo}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button component={Link} to={`/user/public-profile/${animal.giverId}`} size="small" color="primary" sx={buttonStyle}>
+              View Giver's Profile
+            </Button>
+            <Button size="small" color="secondary" onClick={() => handleSelectAnimal(animal._id)} sx={buttonStyle}>
+              Adopt This Animal
+            </Button>
+            <Button size="small" onClick={() => addToFavorites(animal._id)} sx={buttonStyle}>
+              Add to Favorites
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
+    ))}
+  </Grid>
           
-            </div>
-       ))}
         </div>
       );
     }

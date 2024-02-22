@@ -5,7 +5,8 @@ const router = express.Router();
 
 
 router.post('/submitApplication', authenticateToken, async (req, res) => {
-  const { adopterId, submissionId, age, homeEnvironment, petExperience } = req.body;
+  const { submissionId, age, homeEnvironment, petExperience } = req.body;
+  const adopterId = req.user.id;
 
   try {
     const newApplication = new AdoptionApplication({

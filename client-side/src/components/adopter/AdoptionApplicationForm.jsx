@@ -5,13 +5,18 @@ import { useParams } from 'react-router-dom';
 import { AuthContext } from '../Auth/Authcontext';
 
 export default function AdoptionApplicationForm() {
-  const { adopterId } = useContext(AuthContext);
+  const { adopterId, loading } = useContext(AuthContext);
+  console.log("Adopter ID from Context:", adopterId);
   const { submissionId } = useParams();
   const [formData, setFormData] = useState({
     age: '',
     homeEnvironment: '',
     petExperience: ''
   });
+
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
 
   console.log("AdoptionApplicationForm Props:", { submissionId, adopterId });
 
@@ -22,6 +27,8 @@ export default function AdoptionApplicationForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("Submitting Form Data:", formData);
+    console.log("Adopter ID at submission:", adopterId);
     console.log("Submitting Form Data:", formData);
 
     try {

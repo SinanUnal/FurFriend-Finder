@@ -96,6 +96,17 @@ export default function GiverApplications({ giverId }) {
     }
   };
 
+  const handleMarkAsAdopted = async (submissionId) => {
+    try {
+      const axiosInstance = axiosWithAuth();
+      await axiosInstance.patch(`http://localhost:5000/giverDashboard/updateSubmissionStatus/${submissionId}`, { status: 'adopted' });
+     
+      fetchApplications(); 
+    } catch (error) {
+      console.error('Error marking as adopted:', error);
+    }
+  };
+
  
 
   return (
@@ -112,8 +123,11 @@ export default function GiverApplications({ giverId }) {
           <Link to={`/user/public-profile/${app.adopterId._id}`}>View Adopter's Profile</Link>
 
         {app.status === 'approved' && (
-      
+        <>
           <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={'giver'} />
+          <button onClick={() => handleMarkAsAdopted(app.submissionId._id)}>Mark as Adopted</button>
+        </>
+          
        
         )}
 

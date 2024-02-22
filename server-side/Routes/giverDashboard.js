@@ -175,6 +175,22 @@ router.get('/giverDashboard/approvedApplications/:giverId', async (req, res) => 
   }
 });
 
+router.patch('/giverDashboard/updateSubmissionStatus/:submissionId', authenticateToken, async (req, res) => {
+  try {
+    const submissionId = req.params.submissionId;
+    const updatedSubmission = await Submission.findByIdAndUpdate(submissionId, { status: 'adopted' }, { new: true });
+
+    if (!updatedSubmission) {
+      return res.status(404).send({ message: 'Submission not found' });
+    }
+
+    res.send({ message: 'Submission status updated successfully', updatedSubmission });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error updating submission status', error: error.message });
+  }
+});
+
 
 
 

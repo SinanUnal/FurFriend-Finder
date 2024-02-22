@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AnimalSubmissionForm from './AnimalSubmissionForm';
-import axiosWithAuth from '../utils/axiosWithAuth';
+
 
 export default function AnimalSubmissionFromPage({ userId }) {
   const [formData, setFormData] = useState({
@@ -31,7 +31,6 @@ export default function AnimalSubmissionFromPage({ userId }) {
 
   return (
     <div>
-      <h2>Animal Submission Form</h2>
       <AnimalSubmissionForm 
         initialData={formData} 
         onSubmissionSuccess={onSubmissionSuccess}

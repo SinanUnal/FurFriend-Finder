@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import socketIOClient from 'socket.io-client';
 import axiosWithAuth from '../utils/axiosWithAuth';
-
+import { Paper, List, ListItem, ListItemText, Divider, TextField, Button, Box, Typography } from '@mui/material';
 
 const ENDPOINT = 'http://localhost:5000';
 
@@ -50,57 +50,72 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
     const newSocket = socketIOClient(ENDPOINT);
     setSocket(newSocket);
 
-    newSocket.on('chat message', data => {
-      setResponse(oldMessages => [...oldMessages, data]);
+
+    const userId = userType === 'giver' ? giverId : adopterId;
+    newSocket.emit('register', userId);
+
+    // newSocket.on('chat message', data => {
+    //   setResponse(oldMessages => [...oldMessages, data]);
+    // });
+    newSocket.on('chat message', (newMessage) => {
+      // Handle messages only if they belong to the current conversation
+      if ((newMessage.senderId === adopterId && newMessage.recipientId === giverId) ||
+          (newMessage.senderId === giverId && newMessage.recipientId === adopterId)) {
+        setResponse(oldMessages => [...oldMessages, newMessage]);
+      }
     });
 
     return () => {
-      if (newSocket) newSocket.disconnect();
+      newSocket.emit('unregister', userId);
+      newSocket.disconnect();
+      // if (newSocket) newSocket.disconnect();
     };
-  }, []);
+  }, [adopterId, giverId]);
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
         const axiosInstance = axiosWithAuth();
-        const response = await axiosInstance.get(`${ENDPOINT}/messages`);
-        setResponse(response.data);
+        const response = await axiosInstance.get(`${ENDPOINT}/messages/${adopterId}/${giverId}`);
+        // setResponse(response.data);
+        setResponse(response.data.filter(message => 
+          (message.senderId === adopterId && message.recipientId === giverId) ||
+          (message.senderId === giverId && message.recipientId === adopterId)
+        ));
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
     };
   
-    fetchMessages();
+    if (adopterId && giverId) {
+      fetchMessages();
+    }
     
-  }, []);
+  }, [adopterId, giverId]);
   
 
-  //  useEffect(() => {
-  //   if (socket) {
-  //     socket.on('chat message', data => {
-  //       setResponse(oldMessages => [...oldMessages, data]);
-  //     });
-  //   }
-  // }, [socket]);
+
 
   const sendMessage = () => {
-    if (message.trim()) {    //return; 
-      // const sender = adopterUsername ? adopterUsername : giverUsername;
-      let senderUsername;
+    if (message.trim()) {   
+      // let senderUsername;
 
-      if (userType === 'giver') {
-        senderUsername = giverUsername;
-      } else {
-        senderUsername = adopterUsername;
-      }
+      // if (userType === 'giver') {
+      //   senderUsername = giverUsername;
+      // } else {
+      //   senderUsername = adopterUsername;
+      // }
 
       const messageData = {
-        sender: senderUsername,
+        senderId: userType === 'giver' ? giverId : adopterId, 
+        recipientId: userType === 'giver' ? adopterId : giverId, 
         message: message,
         timestamp: new Date()
       };
       socket.emit('chat message', messageData);
+      setResponse(oldMessages => [...oldMessages, messageData]);
       setMessage('');
+
     }
   };
 
@@ -111,29 +126,105 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
 
   const handleKeyDown = (event) => {
     if(event.key === 'Enter') {
+      event.preventDefault();
       sendMessage();
     }
   };
 
+
+
+  const chatEndRef = useRef(null);
+
+
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [response]);
+
   return (
-    <div>
-      <div>
+    <Paper style={{ padding: '20px', maxHeight: '300px', maxWidth: '350px', overflowY: 'auto' }}>
+      <List>
         {response.map((msg, index) => (
-          <div key={index}>
-            <strong>{msg.sender}</strong>:
-            <p>{msg.message}</p>
-            <span>{formatTimestamp(msg.timestamp)}</span>
-          </div>
+          <React.Fragment key={index}>
+            <ListItem alignItems="flex-start">
+              <ListItemText
+                primary={msg.sender}
+                secondary={
+                  <>
+                    <Typography
+                      component="span" variant="body2" 
+                      color="text.primary"
+                      style={{ wordBreak: 'break-word' }}
+                    >
+                      {msg.message}
+                    </Typography>
+                    <span>{formatTimestamp(msg.timestamp)}</span>
+                  </>
+                }
+              />
+            </ListItem>
+            <Divider variant="inset" component="li" />
+          </React.Fragment>
         ))}
-      </div>
-      <input 
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={handleKeyDown}
-        placeholder='Type a message...'
-       /> 
-       <button onClick={sendMessage} disabled={!message.trim()}>Send</button>
-    </div>
+        <div ref={chatEndRef} />
+      </List>
+      <Box
+        component="form"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: '20px'
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          fullWidth
+          label="Type a message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          variant="outlined"
+          size="small"
+          sx={{ marginRight: '10px' }}
+        />
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={sendMessage} 
+          disabled={!message.trim()}
+        >
+          Send
+        </Button>
+      </Box>
+    </Paper>
+  //   
+  
+
+
+
+
+    // <div>
+    //   <div>
+    //     {response.map((msg, index) => (
+    //       <div key={index}>
+    //         <strong>{msg.sender}</strong>:
+    //         <p>{msg.message}</p>
+    //         <span>{formatTimestamp(msg.timestamp)}</span>
+    //       </div>
+    //     ))}
+    //   </div>
+    //   <input 
+    //     type="text"
+    //     value={message}
+    //     onChange={(e) => setMessage(e.target.value)}
+    //     onKeyDown={handleKeyDown}
+    //     placeholder='Type a message...'
+    //    /> 
+    //    <button onClick={sendMessage} disabled={!message.trim()}>Send</button>
+    // </div>
   );
 };
