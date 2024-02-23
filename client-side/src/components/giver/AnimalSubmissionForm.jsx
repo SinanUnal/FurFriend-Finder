@@ -171,7 +171,9 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
  
   return (
     <>
-     <AppBar position="static">
+     <AppBar position="static" sx={{
+          background: 'linear-gradient(45deg, #6a1b9a 30%, #9c27b0 90%)' 
+        }}>
         <Toolbar>
           {isMobile && (
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setDrawerOpen(true)}>

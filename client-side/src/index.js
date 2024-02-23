@@ -26,6 +26,9 @@ import UserProfile from './components/UserProfile/UserProfile';
 import PublicProfile from './components/UserProfile/PublicProfile';
 import AdoptedAnimals from './components/adopter/AdoptedAnimal';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import UserManagement from './components/Users/UserManagement';
+import Reports from './components/Reports/Reports';
+import PendingApprovals from './components/Users/PendingApprovals';
 
 const router = createBrowserRouter([
   {
@@ -47,6 +50,18 @@ const router = createBrowserRouter([
   {
     path: "/admin-dashboard",
     element: <AdminDashboard/>,
+  },
+  {
+    path: "/admin-dashboard/user-management",
+    element: <UserManagement/>,
+  },
+  {
+    path: "/admin-dashboard/reports",
+    element: <Reports/>,
+  },
+  {
+    path: "/admin-dashboard/pending-approvals",
+    element: <PendingApprovals/>,
   },
   {
     path: "/giver-dashboard",

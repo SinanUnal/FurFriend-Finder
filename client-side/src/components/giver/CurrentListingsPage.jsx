@@ -129,7 +129,9 @@ export default function CurrentListingsPage() {
 
   return (
     <div>
-       <AppBar position="static">
+       <AppBar position="static" sx={{
+          background: 'linear-gradient(45deg, #6a1b9a 30%, #9c27b0 90%)' // Linear gradient purple
+        }}>
       <Toolbar>
         {isMobile && (
           <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setDrawerOpen(true)}>
@@ -137,7 +139,7 @@ export default function CurrentListingsPage() {
           </IconButton>
         )}
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Giver Dashboard
+          Current Listings
         </Typography>
         {!isMobile && (
           <Box sx={{ display: 'flex', marginLeft: 'auto' }}>
@@ -162,6 +164,12 @@ export default function CurrentListingsPage() {
         </List>
       </Box>
     </Drawer>
+
+
+    
+    <Typography variant="h4" gutterBottom style={titleStyle}>
+        Current Listings
+      </Typography>
      
 
 

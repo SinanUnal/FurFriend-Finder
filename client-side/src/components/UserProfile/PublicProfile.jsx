@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import {
-  AppBar, Toolbar, Typography, Paper, Box, Avatar,
+  Card, CardContent, AppBar, Toolbar, Typography, Paper, Box, Avatar,
   IconButton, Drawer, List, ListItem, ListItemText,
   useMediaQuery, Button
 } from '@mui/material';
@@ -108,25 +108,37 @@ const PublicProfile = () => {
         </Box>
       </Drawer>
 
-      <Paper elevation={3} style={{ padding: '20px', margin: '20px', textAlign: 'center' }}>
-        <Avatar
-          alt="Profile Picture"
-          src={publicProfile.profilePicture || 'path-to-your-default-image.png'}
-          sx={{ width: 128, height: 128, margin: 'auto' }}
-          style={{ borderRadius: '50%' }}
-        />
-        <Typography variant="h4" component="h1" gutterBottom>
-          {publicProfile.username || 'Username'}
-        </Typography>
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center">
-          <Typography variant="body1">
-            <strong>Address:</strong> {publicProfile.address || 'N/A'}
-          </Typography>
-          <Typography variant="body1">
-            <strong>Phone Number:</strong> {publicProfile.phoneNumber || 'N/A'}
+      <Card variant="outlined" sx={{ 
+        maxWidth: 400, 
+        margin: 'auto', 
+        mt: 4, 
+        boxShadow: 3, 
+        borderRadius: '10px', 
+        backgroundColor: 'background.paper' 
+      }}>
+      <CardContent>
+        <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+          <Avatar 
+            alt="Profile Picture"
+            src={publicProfile.profilePicture || 'path-to-your-default-image.png'}
+            sx={{ width: 150, height: 150, marginBottom: 2 }}
+          />
+          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+            {publicProfile.username || 'Username'}
           </Typography>
         </Box>
-      </Paper>
+
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Address:</Typography>
+        <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
+          {publicProfile.address || 'N/A'}
+        </Typography>
+
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Phone Number:</Typography>
+        <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
+          {publicProfile.phoneNumber || 'N/A'}
+        </Typography>
+      </CardContent>
+    </Card>
     </div>
   );
 };

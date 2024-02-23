@@ -65,7 +65,9 @@ export default function GiverDashboard() {
 
   return (
     <div>
-       <AppBar position="static">
+       <AppBar position="static" sx={{
+          background: 'linear-gradient(45deg, #6a1b9a 30%, #9c27b0 90%)' 
+        }}>
         <Toolbar>
           {isMobile && (
             <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setDrawerOpen(true) }>
@@ -73,7 +75,7 @@ export default function GiverDashboard() {
             </IconButton>
           )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Giver Dashboard
+            My Activities
           </Typography>
           {!isMobile && (
             <Box sx={{ display: 'flex', marginLeft: 'auto' }}>

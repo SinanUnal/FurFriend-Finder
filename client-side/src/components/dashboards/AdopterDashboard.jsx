@@ -117,7 +117,7 @@ export default function AdopterDashboard() {
 
   return (
         <div>
-         <AppBar position="static">
+         <AppBar position="static" sx={{background: 'linear-gradient(to right, #8e2de2, #4a00e0)'}}>
         <Toolbar>
           {isMobile && (
             <IconButton
