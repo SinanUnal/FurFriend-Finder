@@ -4,6 +4,7 @@ const User = require('../models/userModel');
 const Submission = require('../models/submission');
 const authenticateToken = require('../middleware/authentication');
 const AdoptionApplication = require('../models/adoptionApplication');
+const mongoose = require('mongoose');
 
 router.get('/giverDashboard/:userId', async (req, res) => {
   try {
@@ -184,7 +185,23 @@ router.patch('/giverDashboard/updateSubmissionStatus/:submissionId', authenticat
       return res.status(404).send({ message: 'Submission not found' });
     }
 
-    res.send({ message: 'Submission status updated successfully', updatedSubmission });
+    // Now update the corresponding AdoptionApplication
+    await AdoptionApplication.updateMany(
+      { submissionId: new mongoose.Types.ObjectId(submissionId) },
+      { $set: { status: 'adopted' } }
+    );
+
+    res.send({ message: 'Submission and application status updated successfully', updatedSubmission });
+    // const submissionId = req.params.submissionId;
+    // console.log("Updating submission:", submissionId, "with data:", req.body);
+    // const updatedSubmission = await Submission.findByIdAndUpdate(submissionId, { status: 'adopted' }, { new: true });
+    // console.log(updatedSubmission);
+
+    // if (!updatedSubmission) {
+    //   return res.status(404).send({ message: 'Submission not found' });
+    // }
+
+    // res.send({ message: 'Submission status updated successfully', updatedSubmission });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: 'Error updating submission status', error: error.message });

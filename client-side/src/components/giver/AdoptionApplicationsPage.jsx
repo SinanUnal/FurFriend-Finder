@@ -8,9 +8,9 @@ export default function AdoptionApplicationsPage() {
   
   return (
     <div>
-      <h2>Adoption Applications</h2>
+      
       <GiverApplications giverId={userId} />
-      {/* <ChatComponent giverId={userId}/>; */}
+    
     </div>
   )
 }

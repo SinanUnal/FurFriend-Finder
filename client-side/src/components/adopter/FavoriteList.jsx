@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import {
-  AppBar, Toolbar, Typography, IconButton, Box, Button, Grid, Card, CardMedia, CardContent, CardActions, Drawer, List, ListItem, ListItemText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert
+  AppBar, Toolbar, Typography, IconButton, Box, Button, Grid, Card, CardMedia, CardContent, CardActions, Drawer, List, ListItem, ListItemText, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Alert, Paper
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import { AuthContext } from '../Auth/Authcontext';
 
 
@@ -120,6 +121,10 @@ export default function FavoriteList() {
     borderRadius: '4px',
   };
 
+  const handleExploreClick = () => {
+    navigate('/adopter-dashboard');
+  };
+
 
 
   return  (
@@ -167,9 +172,27 @@ export default function FavoriteList() {
       {error && <Alert severity="error">{error}</Alert>}
 
       {favorites.length === 0 ? (
-        <Typography variant="h6" color="textSecondary" align="center" style={{ marginTop: 20 }}>
-          You do not have any favorites at the moment.
-        </Typography>
+       <Grid container justifyContent="center" alignItems="center" mt={8}>
+       <Grid item xs={12} md={6} lg={4}>
+         <Paper elevation={3} sx={{
+           display: 'flex',
+           flexDirection: 'column',
+           alignItems: 'center',
+           justifyContent: 'center',
+           padding: 4,
+           backgroundColor: '#f7f7f7',
+           borderRadius: '15px',
+         }}>
+           <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+           <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
+             You have not have any favorites at the moment.
+           </Typography>
+           <Button variant="contained" color="primary" onClick={handleExploreClick}>
+             Start Exploring
+           </Button>
+         </Paper>
+       </Grid>
+     </Grid>
       ) : (
       <Grid container spacing={2}>
         {favorites.map(favorite => (

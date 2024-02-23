@@ -3,9 +3,10 @@ import axiosWithAuth from '../utils/axiosWithAuth';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { AuthContext } from '../Auth/Authcontext';
-import { AppBar, Toolbar, Typography, CardMedia, CardActions, IconButton, Box, Button, Card, CardContent, Grid, Drawer, List, ListItem, ListItemText, useTheme, useMediaQuery } from '@mui/material';
+import { AppBar, Toolbar, Typography, CardMedia, CardActions, IconButton, Box, Button, Card, CardContent, Grid, Drawer, List, ListItem, ListItemText, useTheme, useMediaQuery, Paper } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import { useNavigate } from 'react-router-dom';
 
 const AdoptedAnimals = () => {
   const { userId } = useParams();
@@ -46,6 +47,8 @@ const AdoptedAnimals = () => {
     borderRadius: '4px',
   };
 
+  
+
   const buttonStyle = {
     fontWeight: 'bold',
     textTransform: 'none',
@@ -54,7 +57,13 @@ const AdoptedAnimals = () => {
     margin: '0 10px',
   };
 
+  
+    const navigate = useNavigate();
 
+
+    const handleExploreClick = () => {
+      navigate('/adopter-dashboard');
+    };
 
   useEffect(() => {
     const fetchAdoptedAnimals = async () => {
@@ -146,9 +155,27 @@ const AdoptedAnimals = () => {
             </Grid>
           ))
         ) : (
-          <Typography variant="h6" color="textSecondary" align="center" style={{ marginTop: 20 }}>
+          <Grid container justifyContent="center" alignItems="center" mt={8}>
+      <Grid item xs={12} md={6} lg={4}>
+        <Paper elevation={3} sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 4,
+          backgroundColor: '#f7f7f7',
+          borderRadius: '15px',
+        }}>
+          <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+          <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
             You have not adopted any animals.
           </Typography>
+          <Button variant="contained" color="primary" onClick={handleExploreClick}>
+            Start Exploring
+          </Button>
+        </Paper>
+      </Grid>
+    </Grid>
         )}
       </Grid>
     </div>

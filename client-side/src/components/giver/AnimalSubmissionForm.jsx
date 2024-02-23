@@ -7,12 +7,13 @@ import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListIt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import { Snackbar, Alert } from '@mui/material';
+import { jwtDecode } from 'jwt-decode';
 
 
 export default function AnimalSubmissionForm({ initialData, isAdmin = false, onSubmissionSuccess }) { 
-  const { userId } = useParams();
+  // const { userId } = useParams();
   const [formData, setFormData] = useState({
     animalName: '',
     animalAge: '',
@@ -21,6 +22,16 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
     imageUrl: ''
   });
   
+
+  const token = localStorage.getItem('token');
+  let userId = null;
+
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    userId = decodedToken.id;
+    console.log("UserId in GiverDashboard:", userId);
+  }
+
 
   
   const [imagePreview, setImagePreview] = useState(null);
@@ -118,7 +129,7 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
 
   const menuItems = [
     
-    { text: 'Your Activities', path: '/giver-dashboard'},
+    { text: 'My Activities', path: '/giver-dashboard/'},
     { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
     { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
     { text: 'Profile', path: `/user/profile/${userId}`}
@@ -304,3 +315,5 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
     </>  
   );
 };
+
+

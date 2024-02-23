@@ -19,7 +19,7 @@ const adoptionApplicationSchema = new mongoose.Schema({
   petExperience: 'String',
   status: {
     type: 'String',
-    enum: ['pending', 'approved', 'rejected'],
+    enum: ['pending', 'approved', 'rejected', 'adopted'],
     default: 'pending'
   },
   createdAt: {

@@ -51,6 +51,17 @@ export default function GiverDashboard() {
     margin: '0 10px',
   };
 
+  const titleStyle = {
+    textAlign: 'center',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Example font family
+    color: '#3f51b5', // Example color (Material-UI primary color)
+    backgroundColor: '#f5f5f5', // Light grey background
+    padding: '10px 0',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Subtle shadow
+    margin: '20px 0',
+    borderRadius: '4px',
+  };
+
 
   return (
     <div>
@@ -93,7 +104,12 @@ export default function GiverDashboard() {
         </Box>
       </Drawer>
 
-      <h1>Giver Dashboard</h1>
+      <Typography variant="h4" gutterBottom style={titleStyle}>
+        My Activities
+      </Typography>
+
+     
+
       <GiverDashboardStats userId={userId} />
 
   
