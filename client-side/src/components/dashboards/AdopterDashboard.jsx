@@ -43,7 +43,7 @@ export default function AdopterDashboard() {
     { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
     { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${adopterId}` },
     { text: 'Profile', path: `/user/profile/${adopterId}` },
-    { text: 'Logout', action: logout }
+    // { text: 'Logout', action: logout }
   ];
 
 
@@ -82,10 +82,10 @@ export default function AdopterDashboard() {
     }
   };
 
-  function logout() {
-    localStorage.clear();
-    navigate('/login');
-  }
+  // function logout() {
+  //   localStorage.clear();
+  //   navigate('/login');
+  // }
 
 
   const cardStyles = {
@@ -229,11 +229,17 @@ export default function AdopterDashboard() {
             <Typography gutterBottom variant="h5" component="div">
               {animal.animalName}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            {/* <Typography variant="body2" color="text.secondary">
               Type: {animal.animalType}<br/>
               Age: {animal.animalAge}<br/>
               Health: {animal.healthInfo}
-            </Typography>
+            </Typography> */}
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Type:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalType}</Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalAge}</Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health State:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.healthInfo}</Typography>
           </CardContent>
           <CardActions>
             <Button component={Link} to={`/user/public-profile/${animal.giverId}`} size="small" color="primary" sx={buttonStyle}>

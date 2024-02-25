@@ -19,7 +19,7 @@ const UserProfile = () => {
   age: '',
   address: '',
   phoneNumber: '',
-  userType: '',
+  userType: null,
  });
   const [file, setFile] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -30,12 +30,7 @@ const UserProfile = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
-  const menuItems = [
-    { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
-    { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
-    { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${userId}` },
-    { text: 'Logout', action: logout }
-  ];
+ 
 
   const buttonStyle = {
     fontWeight: 'bold',
@@ -72,6 +67,49 @@ const UserProfile = () => {
 
     fetchUserProfile();
   }, [userId]);
+
+  let menuItems;
+
+  if (userProfile.userType === 'giver') {
+    menuItems = [
+      { text: 'Animal Submission Form', path: '/giver-dashboard/submission-form'},
+      { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
+      { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
+      { text: 'My Activities', path: '/giver-dashboard/'},
+      { text: 'Logout', action: logout }
+    ];
+  } else if (userProfile.userType === 'adopter') {
+    menuItems = [
+      { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
+      { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
+      { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${userId}` },
+      { text: 'Find Your Perfect Match', path: '/adopter-dashboard' },
+      { text: 'Logout', action: logout }
+    ];
+  } else {
+    
+    menuItems = []; 
+  }
+
+  // const menuItems = userProfile.userType === 'giver' ? [
+  //   [
+    
+  //     { text: 'Animal Submission Form', path: '/giver-dashboard/submission-form'},
+  //     { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
+  //     { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
+  //     { text: 'Profile', path: `/user/profile/${userId}`},
+  //     { text: 'My Activities', path: '/giver-dashboard/'},
+  //     { text: 'Logout', action: logout }
+  //   ]
+  // ] : [
+  //   { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
+  //   { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
+  //   { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${userId}` },
+  //   { text: 'Find Your Perfect Match', path: '/adopter-dashboard' },
+  //   { text: 'Logout', action: logout }
+  // ];
+
+
 
   const handleImageUpload = async () => {
     if (!file) return;

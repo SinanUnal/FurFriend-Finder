@@ -1,7 +1,7 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
 import GiverDashboardStats from '../giver/GiverDashboardStats';
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, Box, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -12,7 +12,7 @@ import { useMediaQuery } from '@mui/material';
 
 
 export default function GiverDashboard() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -27,10 +27,10 @@ export default function GiverDashboard() {
 
   
     
-  function logout() {
-    localStorage.clear();
-    navigate('/login');
-  }
+  // function logout() {
+  //   localStorage.clear();
+  //   navigate('/login');
+  // }
 
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
@@ -40,7 +40,7 @@ export default function GiverDashboard() {
     { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
     { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
     { text: 'Profile', path: `/user/profile/${userId}`},
-    { text: 'Logout', action: logout }
+    // { text: 'Logout', action: logout }
   ];
 
   const buttonStyle = {

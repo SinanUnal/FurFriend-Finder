@@ -113,7 +113,7 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
         timestamp: new Date()
       };
       socket.emit('chat message', messageData);
-      setResponse(oldMessages => [...oldMessages, messageData]);
+      // setResponse(oldMessages => [...oldMessages, messageData]);
       setMessage('');
 
     }
@@ -151,7 +151,9 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
           <React.Fragment key={index}>
             <ListItem alignItems="flex-start">
               <ListItemText
-                primary={msg.sender}
+                primary={ <Typography component="span" variant="body2" style={{ fontWeight: 'bold' }}>
+                {msg.senderId === adopterId ? adopterUsername : giverUsername}
+              </Typography>}
                 secondary={
                   <>
                     <Typography
@@ -201,30 +203,6 @@ export default function ChatComponent({ adopterId, giverId, userType }) {
         </Button>
       </Box>
     </Paper>
-  //   
-  
 
-
-
-
-    // <div>
-    //   <div>
-    //     {response.map((msg, index) => (
-    //       <div key={index}>
-    //         <strong>{msg.sender}</strong>:
-    //         <p>{msg.message}</p>
-    //         <span>{formatTimestamp(msg.timestamp)}</span>
-    //       </div>
-    //     ))}
-    //   </div>
-    //   <input 
-    //     type="text"
-    //     value={message}
-    //     onChange={(e) => setMessage(e.target.value)}
-    //     onKeyDown={handleKeyDown}
-    //     placeholder='Type a message...'
-    //    /> 
-    //    <button onClick={sendMessage} disabled={!message.trim()}>Send</button>
-    // </div>
   );
 };

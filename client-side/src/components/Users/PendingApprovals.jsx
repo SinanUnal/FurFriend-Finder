@@ -13,6 +13,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 
 export default function PendingApprovals() {
   const [pendingSubmissions, setPendingSubmissions] = useState([]);
+  const [approvedSubmissions, setApprovedSubmissions] = useState([]);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -61,6 +62,8 @@ export default function PendingApprovals() {
       console.error('Error rejecting submission:', error);
     }
   };
+
+
 
   const menuItems = [
     { text: 'Admin Dashboard', path: '/admin-dashboard'},
@@ -112,6 +115,30 @@ export default function PendingApprovals() {
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
+  const MessageComponent = ({ title, body }) => (
+    <Paper elevation={3} style={noDataStyle}>
+      <SentimentDissatisfiedIcon style={{ fontSize: 60, color: '#ff0000' }} />
+      <Typography variant="h6" style={{ marginTop: '20px' }}>
+        {title}
+      </Typography>
+      <Typography variant="body1" style={{ marginTop: '10px', textAlign: 'center' }}>
+        {body}
+      </Typography>
+    </Paper>
+  );
+
+  const hasPending = pendingSubmissions.length > 0;
+  const hasApproved = approvedSubmissions.length > 0;
+
+  let messageContent;
+  if (!hasPending && hasApproved) {
+    messageContent = { title: "All Paws on Deck!", body: "There are no pending applications at the moment, but look at all those we've approved! Our efforts are making a difference." };
+  } else if (!hasPending && !hasApproved) {
+    messageContent = { title: "It's Quiet for Now!", body: "It seems we don't have any pending or approved applications at the moment. Our furry friends are eagerly awaiting their forever homes. Check back soon to help them find a loving family!" };
+  } else if (hasPending && !hasApproved) {
+    messageContent = { title: "Paws Crossed!", body: "We have pending applications awaiting approval. Let's find our furry friends their forever homes!" };
+  }
+
   return (
     <div>
        <AppBar position="static" sx={{ backgroundColor: '#000' }}>
@@ -152,7 +179,7 @@ export default function PendingApprovals() {
         Pending Approvals
       </Typography>
 
-
+{/* 
       {pendingSubmissions.length > 0 ? (
   <Grid container spacing={2}>
     {pendingSubmissions.map(submission => (
@@ -206,9 +233,50 @@ export default function PendingApprovals() {
       No pending approvals at the moment.
     </Typography>
   </Paper>
-)}
-
-
+)} */}
+ 
+ {messageContent ? (
+        <MessageComponent title={messageContent.title} body={messageContent.body} />
+      ) : (
+        <Grid container spacing={2}>
+          {pendingSubmissions.map(submission => (
+            <Grid item xs={12} sm={6} md={4} key={submission._id}>
+              <Card sx={cardStyle}>
+                <CardMedia
+                  component="img"
+                  alt={`Image of ${submission.animalName}`}
+                  height="200"
+                  image={submission.imageUrl}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {submission.animalName}
+                  </Typography>
+                  {/* ... Other card content ... */}
+                </CardContent>
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                  <Button
+                    startIcon={<CheckCircleIcon />}
+                    sx={buttonStyle}
+                    onClick={() => handleApprove(submission._id)}
+                    color="primary"
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    startIcon={<CancelIcon />}
+                    sx={buttonStyle}
+                    onClick={() => handleReject(submission._id)}
+                    color="secondary"
+                  >
+                    Reject
+                  </Button>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
 
 
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, Box, Button, Card, CardContent, Grid, CardMedia } from '@mui/material';
+import InfoIcon from '@mui/icons-material/Info';
+// import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useTheme } from '@mui/material/styles';
@@ -26,6 +28,7 @@ export default function GiverApplications({ giverId }) {
   const [chatPosition, setChatPosition] = useState({ top: 0, left: 0 });
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedSubmission, setSelectedSubmission] = useState(null);
+  const [hasApprovedApplications, setHasApprovedApplications] = useState(false);
 
 
   const token = localStorage.getItem('token');
@@ -131,6 +134,7 @@ export default function GiverApplications({ giverId }) {
     try {
       const axiosInstance = axiosWithAuth();
       const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/approvedApplications/${giverId}`);
+      setHasApprovedApplications(response.data.length > 0);
       setApplications(response.data);
     } catch (error) {
       console.error('Error fetching applications', error);
@@ -241,6 +245,18 @@ export default function GiverApplications({ giverId }) {
     }
     return null;
   };
+
+  const MessageComponent = ({ title, body }) => (
+    <Box sx={{ ...cardStyle, textAlign: 'center', padding: '20px' }}>
+      <InfoIcon style={{ fontSize: 60, color: '#3f51b5' }} />
+      <Typography variant="h6" style={{ marginTop: '20px' }}>
+        {title}
+      </Typography>
+      <Typography variant="body1" style={{ marginTop: '10px' }}>
+        {body}
+      </Typography>
+    </Box>
+  );
   
  
 
@@ -314,6 +330,21 @@ export default function GiverApplications({ giverId }) {
     <Typography variant="h4" gutterBottom style={titleStyle}>
       {fetchType === 'pending' ? 'Pending' : 'Approved'} Adoption Applications
     </Typography>
+
+    {applications.length === 0 && (
+        <MessageComponent
+          title={
+            fetchType === 'pending' && !hasApprovedApplications 
+            ? "It's Quiet for Now!" 
+            : "All Paws on Deck!"
+          }
+          body={
+            fetchType === 'pending' && !hasApprovedApplications
+            ? "It seems we don't have any pending or approved applications at the moment. Our furry friends are eagerly awaiting their forever homes. Check back soon to help them find a loving family!"
+            : "There are no approved applications right now. Keep up the great work and stay tuned for future updates!"
+          }
+        />
+      )}
 
     <Grid container spacing={2}>
       {applications.map(app => (
