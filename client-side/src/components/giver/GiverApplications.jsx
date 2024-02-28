@@ -2,14 +2,13 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText, Box, Button, Card, CardContent, Grid, CardMedia } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-// import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import axiosWithAuth from '../utils/axiosWithAuth';
 import ChatComponent from '../Chat/ChatComponent';
-// import { useParams } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import ReactDOM from 'react-dom';
@@ -72,11 +71,11 @@ export default function GiverApplications({ giverId }) {
 
   const titleStyle = {
     textAlign: 'center',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Example font family
-    color: '#3f51b5', // Example color (Material-UI primary color)
-    backgroundColor: '#f5f5f5', // Light grey background
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    color: '#3f51b5', 
+    backgroundColor: '#f5f5f5', 
     padding: '10px 0',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Subtle shadow
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     margin: '20px 0',
     borderRadius: '4px',
   };
@@ -103,7 +102,7 @@ export default function GiverApplications({ giverId }) {
     } catch (error) {
       console.error('Error fetching applications', error);
     }
-  }, [giverId, fetchType]); // giverId is a dependency
+  }, [giverId, fetchType]); 
 
   useEffect(() => {
     if (giverId) {
@@ -120,7 +119,7 @@ export default function GiverApplications({ giverId }) {
       const response = await axiosInstance.get(`http://localhost:5000/giverDashboard/pendingApplications/${giverId}`);
       setApplications(response.data);
       if (response.data.length === 0) {
-        // If no pending applications, fetch approved ones
+        
         setFetchType('approved');
       } else {
         setApplications(response.data);
@@ -151,7 +150,7 @@ export default function GiverApplications({ giverId }) {
 
 
  
-  // const userType = 'giver';
+
 
   const handleApprove = async (applicationId) => {
     try {
@@ -181,7 +180,7 @@ export default function GiverApplications({ giverId }) {
         const response = await axiosInstance.patch(`http://localhost:5000/giverDashboard/updateSubmissionStatus/${selectedSubmission}`, { status: 'adopted' });
        
         if (response.status === 200) {
-          // Update the status of the specific application in the state
+         
           setApplications(currentApplications =>
             currentApplications.map(app =>
               app.submissionId._id === selectedSubmission ? { ...app, status: 'adopted' } : app
@@ -363,29 +362,19 @@ export default function GiverApplications({ giverId }) {
                 {app.submissionId.animalName}
               </Typography>
               
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-                Applicant's Age: {app.age}
-              </Typography> */}
+             
 
               <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Applicant's Age:</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.age}</Typography>
 
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-                Home Environment: {app.homeEnvironment}
-              </Typography> */}
+             
                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Home Experience:</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.homeEnvironment}</Typography>
 
-              
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-                Pet Experience: {app.petExperience}
-              </Typography> */}
 
               <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Pet Experience:</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.petExperience}</Typography>
-              {/* <Typography variant="body2" color="textSecondary" component="p">
-                Application Status: {app.status}
-              </Typography> */}
+            
               <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Application Status:</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.status}</Typography>
 
@@ -420,45 +409,6 @@ export default function GiverApplications({ giverId }) {
 
     {renderChatComponent()}
 
-
-
-
-
-
-
-     {/* <h2>{fetchType === 'pending' ? 'Pending' : 'Approved'} Adoption Applications</h2> */}
-
-     {/* {applications.length > 0 ? applications.map(app => (
-      <div key={app._id}>
-          <h3>Application Details</h3>
-          <p>Animal Name: {app.submissionId.animalName}</p>
-          <p>Applicant's Age: {app.age}</p>
-          <p>Home Environment: {app.homeEnvironment}</p>
-          <p>Pet Experience: {app.petExperience}</p>
-          <p>Application Status: {app.status}</p>
-          <Link to={`/user/public-profile/${app.adopterId._id}`}>View Adopter's Profile</Link>
-
-        {app.status === 'approved' && (
-        <>
-          <ChatComponent adopterId={app.adopterId._id} giverId={giverId} userType={'giver'} />
-          <button onClick={() => handleMarkAsAdopted(app.submissionId._id)}>Mark as Adopted</button>
-        </>
-          
-       
-        )}
-
-          {fetchType === 'pending' && (
-            <>
-              <button onClick={() => handleApprove(app._id)}>Approve</button>
-              <button onClick={() => handleReject(app._id)}>Reject</button>
-            </>
-          )}
-
-      </div> 
-     )) : <p>No pending applications.</p>} 
-     <button onClick={() => setFetchType(fetchType === 'pending' ? 'approved' : 'pending')}>
-     {fetchType === 'pending' ? 'Show Approved     Applications' : 'Show Pending Applications'}
-     </button> */}
 
     </div>
   );

@@ -9,7 +9,7 @@ import { useMediaQuery } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import { AuthContext } from '../Auth/Authcontext';
-
+import './FavoriteListing.css';
 
 
 export default function FavoriteList() {
@@ -27,7 +27,6 @@ export default function FavoriteList() {
 
   const menuItems = [
     { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
-    // { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
     { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${adopterId}` },
     { text: 'Find Your Perfect Match', path: '/adopter-dashboard' },
     { text: 'Profile', path: `/user/profile/${adopterId}` }
@@ -94,17 +93,7 @@ export default function FavoriteList() {
     }
   };
 
-  // const removeFromFavorites = async () => {
-  //   try {
-  //     const axiosInstance = axiosWithAuth();
-  //     await axiosInstance.delete(`http://localhost:5000/adopterDashboard/removeFromFavorites?submissionId=${selectedFavorite}`);
-  //     fetchFavorites();
-  //     setFeedbackMessage('Removed from favorites successfully!');
-  //     setOpenDialog(false);
-  //   } catch (error) {
-  //     setError('Error removing from favorites');
-  //   }
-  // };
+
 
   const handleSelectAnimal = (animalId) => {
     navigate(`/adoption-application/${animalId}`);
@@ -112,11 +101,11 @@ export default function FavoriteList() {
 
   const titleStyle = {
     textAlign: 'center',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Example font family
-    color: '#3f51b5', // Example color (Material-UI primary color)
-    backgroundColor: '#f5f5f5', // Light grey background
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', 
+    color: '#3f51b5',
+    backgroundColor: '#f5f5f5', 
     padding: '10px 0',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Subtle shadow
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', 
     margin: '20px 0',
     borderRadius: '4px',
   };
@@ -168,90 +157,89 @@ export default function FavoriteList() {
       </Typography>
       {error && <p>{error}</p>}
 
-      {feedbackMessage && <Alert severity="success">{feedbackMessage}</Alert>}
-      {error && <Alert severity="error">{error}</Alert>}
-
-      {favorites.length === 0 ? (
-       <Grid container justifyContent="center" alignItems="center" mt={8}>
-       <Grid item xs={12} md={6} lg={4}>
-         <Paper elevation={3} sx={{
-           display: 'flex',
-           flexDirection: 'column',
-           alignItems: 'center',
-           justifyContent: 'center',
-           padding: 4,
-           backgroundColor: '#f7f7f7',
-           borderRadius: '15px',
-         }}>
-           <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
-           <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
-             You have not have any favorites at the moment.
-           </Typography>
-           <Button variant="contained" color="primary" onClick={handleExploreClick}>
-             Start Exploring
-           </Button>
-         </Paper>
-       </Grid>
-     </Grid>
-      ) : (
-      <Grid container spacing={2}>
-        {favorites.map(favorite => (
-          <Grid item xs={12} sm={6} md={4} key={favorite._id}>
-            <Card sx={cardStyle}>
-              <CardMedia
-                component="img"
-                height="200"
-                image={favorite.imageUrl || 'path-to-default-image.jpg'}
-                alt={favorite.animalName}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
-                  {favorite.animalName}
-                </Typography>
-               
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
-                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{favorite.animalAge}</Typography>
-
-                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Status:</Typography>
-                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{favorite.healthInfo}</Typography>
-
-              </CardContent>
-              <CardActions>
-               
-                <Button component={Link} to={`/user/public-profile/${favorite.giverId}`} size="small" color="primary" sx={buttonStyle}>
-                  View Giver's Profile
-                </Button>
-                <Button size="small" color="secondary" onClick={() => confirmRemove(favorite._id)} sx={buttonStyle}>
-                  Remove from Favorites
-                </Button>
-                <Button  size="small" color="primary" onClick={() => handleSelectAnimal(favorite._id)} sx={buttonStyle}>
-                  Adopt This Animal
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    )}
-      <Dialog
-        open={openDialog}
-        onClose={() => setOpenDialog(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Remove from Favorites"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to remove this item from your favorites?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-          <Button onClick={removeFromFavorites} color="secondary">
-            Remove
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <div className="favorite-main-container">
+        {feedbackMessage && <Alert severity="success">{feedbackMessage}</Alert>}
+        {error && <Alert severity="error">{error}</Alert>}
+        {favorites.length === 0 ? (
+         <Grid container justifyContent="center" alignItems="center" mt={8}>
+         <Grid item xs={12} md={6} lg={4}>
+           <Paper elevation={3} sx={{
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: 'center',
+             justifyContent: 'center',
+             padding: 4,
+             backgroundColor: '#f7f7f7',
+             borderRadius: '15px',
+           }}>
+             <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+             <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
+               You have not have any favorites at the moment.
+             </Typography>
+             <Button variant="contained" color="primary" onClick={handleExploreClick}>
+               Start Exploring
+             </Button>
+           </Paper>
+         </Grid>
+             </Grid>
+        ) : (
+        <Grid container spacing={2}>
+          {favorites.map(favorite => (
+            <Grid item xs={12} sm={6} md={4} key={favorite._id}>
+              <Card sx={cardStyle}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={favorite.imageUrl || 'path-to-default-image.jpg'}
+                  alt={favorite.animalName}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
+                    {favorite.animalName}
+                  </Typography>
+        
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{favorite.animalAge}</Typography>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Status:</Typography>
+                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{favorite.healthInfo}</Typography>
+                </CardContent>
+                <CardActions>
+        
+                  <Button component={Link} to={`/user/public-profile/${favorite.giverId}`} size="small" color="primary" sx={buttonStyle}>
+                    View Giver's Profile
+                  </Button>
+                  <Button size="small" color="secondary" onClick={() => confirmRemove(favorite._id)} sx={buttonStyle}>
+                    Remove from Favorites
+                  </Button>
+                  <Button  size="small" color="primary" onClick={() => handleSelectAnimal(favorite._id)} sx={buttonStyle}>
+                    Adopt This Animal
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+            )}
+        <Dialog
+          open={openDialog}
+          onClose={() => setOpenDialog(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Remove from Favorites"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Are you sure you want to remove this item from your favorites?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
+            <Button onClick={removeFromFavorites} color="secondary">
+              Remove
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
    
     </div>
   );

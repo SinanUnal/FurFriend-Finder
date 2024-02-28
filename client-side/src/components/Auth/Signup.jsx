@@ -5,6 +5,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { TextField, Button, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
+
+
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -83,116 +89,244 @@ export default function Signup() {
   };
 
 
+ 
+
   return (
-    <div className='container mt-5'>
-      <div className='row'>
-        <div className='col-md-6 offset-md-3'>
-          <h1 className='text-center'>Signup page</h1>
+    <div>
+     <AppBar position="sticky" color="default">
+            <Toolbar>
+             <div style={{ flexGrow: 1, textAlign: 'center' }}>
+              <img 
+                src={require('../img/professional.webp')} 
+                alt="FurFriend Logo"
+                style={{ maxHeight: '60px' }}s 
+              />
+    </div>
+            </Toolbar>
+        </AppBar>
+
+        <div className="main-container">
+       
+      <div className="welcome-text">
+      <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color:'#333', lineHeight: '1.5', fontSize: '2.5rem' }}>
+        Welcome to FurFriend!
+      </Typography>
+    
+      <Typography variant="subtitle1" style={{ lineHeight: '1.6', fontSize: '1.25rem' }}>
+      Welcome to FurFriend, where love finds a way home! Our platform is a heartwarming community dedicated to connecting those who wish to find a new, loving home for their pets with those who are eager to open their hearts and homes to a new furry friend. Here, every tail wag and purr is a story of compassion and companionship waiting to unfold. Whether you're a pet parent facing the tough decision of rehoming your beloved companion or you're looking to adopt and enrich your life with a pet's unconditional love, FurFriend is here to guide you every step of the way. Join our family today and be part of a journey that changes lives, two paws at a time!
+      </Typography>
+      </div>
+
+
+        
+        
+          <div className="form-container">
+          <Typography variant="h5" style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                Create an Account
+              </Typography>
           <form>
-            <div className='col-12 mb-3'>
-              <input 
-                type="text"
-                name="username"
-                className="form-control" 
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='col-12 mb-3'>
-              <input 
-                type="password"
-                name="password"
-                className="form-control"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='mb-3'>
-            <div      className="password-requirements">    
+            <TextField 
+              label="Username" 
+              variant="outlined" 
+              fullWidth 
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#ffffff', 
+                  borderRadius: '4px',
+                  '& fieldset': {
+                    borderRadius: '4px', 
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main', 
+                  },
+                  '& input': {
+                    height: '10px',
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Password" 
+              variant="outlined" 
+              fullWidth 
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#ffffff', 
+                  borderRadius: '4px',
+                  '& fieldset': {
+                    borderRadius: '4px', 
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main', 
+                  },
+                  '& input': {
+                    height: '10px',
+                  },
+                },
+              }}
+            />
+            <div className='password-requirements'>
               <strong>Password must contain:</strong>
               <ul>
-                <li className={getValidationClass(passwordValidations.minChar)}>
-                6 characters minimum
-                </li>
-                <li className={getValidationClass(passwordValidations.oneUpper)}>
-                One uppercase character
-                </li>
-                <li className={getValidationClass(passwordValidations.oneLower)}>
-                One lowercase character
-                </li>
-                <li className={getValidationClass(passwordValidations.oneNumber)}>
-                One number
-                        </li>
-                <li className={getValidationClass(passwordValidations.oneSpecial)}>
-                One special character
-                </li>
+                <li className={getValidationClass(passwordValidations.minChar)}>6 characters minimum</li>
+                <li className={getValidationClass(passwordValidations.oneUpper)}>One uppercase character</li>
+                <li className={getValidationClass(passwordValidations.oneLower)}>One lowercase character</li>
+                <li className={getValidationClass(passwordValidations.oneNumber)}>One number</li>
+                <li className={getValidationClass(passwordValidations.oneSpecial)}>One special character</li>
               </ul>
             </div>
-
-            </div>
-            <div className='col-12 mb-3'>
-              <input 
-                type="number"
-                name="age"
-                className="form-control"
-                placeholder="Age"
-                value={formData.age}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='col-12 mb-3'>
-              <input 
-                type="text"
-                name="address"
-                className="form-control"
-                placeholder="Address"
-                value={formData.address}
-                onChange={handleChange}
-              /> 
-            </div>
-            <div className='col-12 mb-3'>
-              <input 
-                type="text"
-                name="phoneNumber"
-                className="form-control"
-                placeholder="Phone Number"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='mb-3'>
-              <select
-                name="userType"
-                className="input-field"
+            <TextField 
+              label="Age" 
+              variant="outlined" 
+              fullWidth 
+              type="number"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#ffffff', 
+                  borderRadius: '4px',
+                  '& fieldset': {
+                    borderRadius: '4px', 
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main', 
+                  },
+                  '& input': {
+                    height: '10px',
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Address" 
+              variant="outlined" 
+              fullWidth 
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#ffffff', 
+                  borderRadius: '4px',
+                  '& fieldset': {
+                    borderRadius: '4px', 
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main', 
+                  },
+                  '& input': {
+                    height: '10px',
+                  },
+                },
+              }}
+            />
+            <TextField 
+              label="Phone Number" 
+              variant="outlined" 
+              fullWidth 
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              margin="normal"
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  backgroundColor: '#ffffff', 
+                  borderRadius: '4px',
+                  '& fieldset': {
+                    borderRadius: '4px', 
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: 'primary.main', 
+                  },
+                  '& input': {
+                    height: '10px',
+                  },
+                },
+              }}
+            />
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="userType-label">Select your intention</InputLabel>
+              <Select
+                labelId="userType-label"
+                id="userType"
                 value={formData.userType}
+                label="User Type"
                 onChange={handleChange}
-                >
-                <option         value="">Select your intention</option>
-                <option value="adopter">Adopt a Pet</option>
-                <option value="giver">Give a Pet for Adoption</option>
-              </select>
-            </div>
-            <div className='mb-3'>
-              <p className="error-message">{error}</p>
-            </div>
-            <div className='mb-3'>           
-              <button
-                className="btn btn-primary w-100"
-                type='button' 
-                onClick={signup}
+                name="userType"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor: '#ffffff',
+                    borderRadius: '4px', 
+                    '& fieldset': {
+                      borderRadius: '4px', 
+                    },
+                    '&.Mui-focused fieldset': {
+                      borderColor: 'primary.main', 
+                    },
+                  },
+                  '& .MuiSelect-select': {
+                    padding: '10px 14px', 
+                    backgroundColor: '#ffffff', 
+                    borderRadius: '4px', 
+                    '&:focus': {
+                      backgroundColor: '#ffffff', // 
+                    },
+                  },
+                }}
               >
-               Signup
-              </button>
-            </div>
+                <MenuItem value=""><em>None</em></MenuItem>
+                <MenuItem value="adopter">Adopt a Pet</MenuItem>
+                <MenuItem value="giver">Give a Pet for Adoption</MenuItem>
+              </Select>
+            </FormControl>
+            {error && <FormHelperText error>{error}</FormHelperText>}
+            <Button variant="contained" color="primary" fullWidth onClick={signup} style={{ marginTop: '20px' }}>
+              Signup
+            </Button>
           </form>
-      
-          <p className='text-center'>You already have an account? <Link to="/login" className="link">Login</Link>
-          </p>
+          <p className='text-center'>You already have an account? <Link to="/login" className="login-link">Log in</Link></p>
         </div>
+
+      </div>
       </div>
       
-    </div>
+   
   )
 }
+{/* <div className="container mt-5">
+<div className="row" style={{ minHeight: '100vh' }}>
+  
+  <div className="col-md-6" style={{ position: 'relative' }}>
+    <img src={require('../img/adoption-picture.webp')} alt="Adoption" style={{ width: '100%', height: '100vh', objectFit: 'cover', position: 'absolute', left: '0', top: '0', zIndex: -1 }} />
+    <div style={{
+      position: 'absolute', 
+      top: '0', 
+      left: '0', 
+      padding: '20px',
+      backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent background
+      borderRadius: '8px', // Rounded corners
+      maxWidth: '100%', // Max-width for responsiveness
+      boxSizing: 'border-box'
+    }}>
+       <Typography variant="h3" gutterBottom style={{ fontWeight: 'bold', color:'#333', lineHeight: '1.5', fontSize: '2.5rem' }}>
+        Welcome to FurFriend!
+      </Typography>
+    
+      <Typography variant="subtitle1" style={{ lineHeight: '1.6', fontSize: '1.25rem' }}>
+      Welcome to FurFriend, where love finds a way home! Our platform is a heartwarming community dedicated to connecting those who wish to find a new, loving home for their pets with those who are eager to open their hearts and homes to a new furry friend. Here, every tail wag and purr is a story of compassion and companionship waiting to unfold. Whether you're a pet parent facing the tough decision of rehoming your beloved companion or you're looking to adopt and enrich your life with a pet's unconditional love, FurFriend is here to guide you every step of the way. Join our family today and be part of a journey that changes lives, two paws at a time
+      </Typography>
+    </div>
+  </div>  */}

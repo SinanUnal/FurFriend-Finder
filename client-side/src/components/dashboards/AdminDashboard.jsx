@@ -7,7 +7,7 @@ import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListIt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
-
+import './AdminDashboard.css';
 
 
 export default function AdminDashboard() {
@@ -128,106 +128,76 @@ export default function AdminDashboard() {
           </List>
         </Box>
       </Drawer>
-
+{/* 
       <Typography variant="h4" gutterBottom style={titleStyle}>
         Admin Dashboard
-      </Typography>
+      </Typography> */}
 
 
 
 
-{/* 
-      <Link to={"/admin-dashboard/user-management"}>User Management</Link>
-      <Link to={"/admin-dashboard/reports"}>Reports</Link>
-      <Link to={"/admin-dashboard/pending-approvals"}>Pending Approvals</Link> */}
-{/*       
-      <button className="button" onClick={() => {
-               logout();
-       }}>Logout</button> */}
 
 
-    {selectedSubmission && (
-        <AnimalSubmissionForm
-          initialData={selectedSubmission}
-          isAdmin={true}
-          onSubmissionSuccess={handleUpdateSuccess}
-        />
-      )}
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        width="100%" 
-        my={4} 
-        p={2} // padding
-        style={{
-          backgroundColor: '#f0f0f0', // Light grey background
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Shadow effect
-          borderRadius: '4px', // Rounded corners
-        }}
-      >
-        <Typography 
-          variant="h4" 
-          component="h2" 
-          style={{ 
-            textAlign: 'center',
-            fontWeight: 'bold', // Optional: if you want the text to be bold
+    <div className="admin-main-container">
+      {selectedSubmission && (
+          <AnimalSubmissionForm
+            initialData={selectedSubmission}
+            isAdmin={true}
+            onSubmissionSuccess={handleUpdateSuccess}
+          />
+        )}
+        <Box
+          display="flex"
+          justifyContent="center"
+          width="100%"
+          my={4}
+          p={2} // padding
+          style={{
+            backgroundColor: '#f0f0f0', // Light grey background
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', // Shadow effect
+            borderRadius: '4px', // Rounded corners
           }}
         >
-          All Submissions
-        </Typography>
-      </Box>
-      <Grid container spacing={2}>
-        {submissions.map(submission => (
-          <Grid item xs={12} sm={6} md={4} key={submission._id}>
-            <Card sx={cardStyle}>
-            <CardMedia
-              component="img"
-              alt={`Image of ${submission.animalName}`}
-              height="200"
-              image={submission.imageUrl} // Replace with your image source
-            />
-              <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {submission.animalName}
-              </Typography>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
-              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{submission.animalAge}</Typography>
-              {/* <Typography variant="body2" color="textSecondary">
-                Age: {submission.animalAge}
-              </Typography> */}
-              {/* <Typography variant="body2" color="textSecondary">
-                Health Info: {submission.healthInfo}
-              </Typography> */}
-               <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Info:</Typography>
-              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{submission.healthInfo}</Typography>
-              </CardContent>
-              <Button sx={buttonStyle} onClick={() => handleEdit(submission)}>Edit</Button>
-              {selectedSubmission && selectedSubmission._id === submission._id && (
-                <Button sx={buttonStyle} onClick={handleCancel}>Cancel</Button>
-              )}
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-
-
-      {/* {selectedSubmission && (
-        <AnimalSubmissionForm
-        initialData={selectedSubmission}
-        isAdmin={true}
-        onSubmissionSuccess={handleUpdateSuccess}
-      />
-      )}
-      <h2>All submissions</h2>
-      {submissions.map(submission => (
-        <div key={submission._id}>
-          <p>{submission.animalName}</p>
-          <button onClick={() => handleEdit(submission)}>Edit</button>
-        </div>
-      ))}
-       */}
+          <Typography
+            variant="h4"
+            component="h2"
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold', // Optional: if you want the text to be bold
+            }}
+          >
+            All Submissions
+          </Typography>
+        </Box>
+        <Grid container spacing={2}>
+          {submissions.map(submission => (
+            <Grid item xs={12} sm={6} md={4} key={submission._id}>
+              <Card sx={cardStyle}>
+              <CardMedia
+                component="img"
+                alt={`Image of ${submission.animalName}`}
+                height="200"
+                image={submission.imageUrl} // Replace with your image source
+              />
+                <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {submission.animalName}
+                </Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{submission.animalAge}</Typography>
       
+                 <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Info:</Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{submission.healthInfo}</Typography>
+                </CardContent>
+                <Button sx={buttonStyle} onClick={() => handleEdit(submission)}>Edit</Button>
+                {selectedSubmission && selectedSubmission._id === submission._id && (
+                  <Button sx={buttonStyle} onClick={handleCancel}>Cancel</Button>
+                )}
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+    </div>
      
     </div>
   );

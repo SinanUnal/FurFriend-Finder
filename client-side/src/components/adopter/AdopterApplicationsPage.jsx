@@ -13,6 +13,7 @@ import ChatComponent from '../Chat/ChatComponent';
 // import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
+import './AdopterApplicationsPage.css';
 
 export default function AdopterApplicationsPage() {
   const [applications, setApplications] = useState([]);
@@ -195,68 +196,71 @@ export default function AdopterApplicationsPage() {
       <Typography variant="h4" gutterBottom style={titleStyle}>
         My Applications
       </Typography>
-      {/* {error && <p>{error}</p>} */}
-      {applications.length > 0 ? (
-        <Grid container spacing={2}>
-          {applications.map(app => (
-            <Grid item xs={12} sm={6} md={4} key={app._id}>
-          
-            <Card sx={cardStyle} id={`card-${app.submissionId?.giverId?._id}`}>
-              
-                {app.submissionId?.imageUrl && (
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={app.submissionId.imageUrl}
-                    alt={app.submissionId.animalName}
-                  />
-                )}
-            
-                <CardContent>
-                  <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
-                    {app.submissionId?.animalName || 'N/A'}
-                  </Typography>
-                 
-                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Status:</Typography>
-                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.status}</Typography>
-                  {app.status === 'approved' && (
-                    <>
-                    
-                       <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Name:</Typography>
-                       <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.username}</Typography>
-                  
-                       <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Address:</Typography>
-                       <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.address}</Typography>
-                     
-                      <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Phone Number:</Typography>
-                      <Typography variant="body1" sx={{ marginBottom: 2, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.phoneNumber}</Typography>
-                    </>
-                  )}
-                </CardContent>
-              
-              <CardActions>
-                {app.status === 'approved' && (
-                  <IconButton onClick={(event) => toggleChat(app.submissionId?.giverId?._id, event)}>
-                    <ChatIcon sx={{ color: theme.palette.primary.main }}  />
-                  </IconButton>
-                )}
-              </CardActions>
-        
-            </Card>
-            {/* {app.status === 'approved' && activeChat === app.submissionId?.giverId?._id &&  (
-              <ChatComponent adopterId={adopterId} giverId={app.submissionId?.giverId?._id} userType="adopter" />
-            )} */}
-              </Grid>
-              ))} 
-        </Grid>
-        
-      ) : (
-        <Typography variant="h6" color="textSecondary" style={titleStyle}>
-        No applications found. Start adopting today!
-      </Typography>
-      )}
+     
 
-      {renderChatComponent()} 
+      <div className="applications-main-container">
+        {applications.length > 0 ? (
+          <Grid container spacing={2}>
+            {applications.map(app => (
+              <Grid item xs={12} sm={6} md={4} key={app._id}>
+        
+              <Card sx={cardStyle} id={`card-${app.submissionId?.giverId?._id}`}>
+        
+                  {app.submissionId?.imageUrl && (
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={app.submissionId.imageUrl}
+                      alt={app.submissionId.animalName}
+                    />
+                  )}
+        
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
+                      {app.submissionId?.animalName || 'N/A'}
+                    </Typography>
+        
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Status:</Typography>
+                    <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.status}</Typography>
+                    {app.status === 'approved' && (
+                      <>
+        
+                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Name:</Typography>
+                         <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.username}</Typography>
+        
+                         <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Address:</Typography>
+                         <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.address}</Typography>
+        
+                        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Giver's Phone Number:</Typography>
+                        <Typography variant="body1" sx={{ marginBottom: 2, fontSize: '1.1rem' }}>{app.submissionId?.giverId?.phoneNumber}</Typography>
+                      </>
+                    )}
+                  </CardContent>
+        
+                <CardActions>
+                  {app.status === 'approved' && (
+                    <IconButton onClick={(event) => toggleChat(app.submissionId?.giverId?._id, event)}>
+                      <ChatIcon sx={{ color: theme.palette.primary.main }}  />
+                    </IconButton>
+                  )}
+                </CardActions>
+        
+              </Card>
+        
+                </Grid>
+                ))}
+          </Grid>
+        
+        ) : (
+          <Typography variant="h6" color="textSecondary" style={titleStyle}>
+          No applications found. Start adopting today!
+        </Typography>
+        )}
+
+        {renderChatComponent()} 
+      </div>
+
+      
     </div>
   )
 }

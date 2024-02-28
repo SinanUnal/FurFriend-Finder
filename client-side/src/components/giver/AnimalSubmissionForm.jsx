@@ -7,13 +7,13 @@ import { AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListIt
 import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// import { useParams } from 'react-router-dom';
+import './AnimalSubmissionForm.css';
 import { Snackbar, Alert } from '@mui/material';
 import { jwtDecode } from 'jwt-decode';
 
 
 export default function AnimalSubmissionForm({ initialData, isAdmin = false, onSubmissionSuccess }) { 
-  // const { userId } = useParams();
+  
   const [formData, setFormData] = useState({
     animalName: '',
     animalAge: '',
@@ -43,11 +43,7 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // useEffect(() => {
-  //   if (initialData) {
-  //     setFormData(initialData);
-  //   }
-  // }, [initialData]);
+ 
 
   useEffect(() => {
     if (initialData) {
@@ -136,16 +132,7 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
     
   ];
 
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setFile(file);
-  //   if (file) {
-  //     const previewUrl = URL.createObjectURL(file);
-  //     setImagePreview(previewUrl);
-  //   } else {
-  //     setImagePreview(null);
-  //   }
-  // };
+ 
 
   const buttonStyle = {
     fontWeight: 'bold',
@@ -209,111 +196,106 @@ export default function AnimalSubmissionForm({ initialData, isAdmin = false, onS
       </Drawer>
 
 
-      <Box sx={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
-        <Typography variant="h4" gutterBottom align="center" sx={titleStyle}>
-          Animal Submission Form
-        </Typography>
-
-        <Box display="flex" justifyContent="center" marginBottom="20px">
-          {imagePreview && (
-            <Box
-              sx={{
-                maxWidth: '300px', // Set a max-width for your image container
-                maxHeight: '300px', // Set a max-height for your image container
-                overflow: 'hidden', // Hide overflow
-                display: 'flex', // Use flex for centering
-                justifyContent: 'center', // Center horizontally
-                alignItems: 'center', // Center vertically
-                margin: 'auto', // Center the box itself
-                border: '1px solid #ccc', // Add a border
-                borderRadius: '4px', // Round the corners
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Add a subtle shadow
-              }}
-            >
-              <img src={imagePreview} alt="Preview" style={{ width: '100%', height: 'auto' }} />
-            </Box>
-          )}
-        </Box>
-
-
-
-
-      <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
-      <TextField
-        label="Animal Name"
-        variant="outlined"
-        name="animalName"
-        value={formData.animalName}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-
-      <TextField
-        label="Animal Age"
-        variant="outlined"
-        name="animalAge"
-        value={formData.animalAge}
-        onChange={handleChange}
-        fullWidth
-        margin="normal"
-      />
-
-      <FormControl fullWidth margin="normal">
-        <InputLabel id="animal-type-label">Animal Type</InputLabel>
-        <Select
-          labelId="animal-type-label"
-          value={formData.animalType}
-          label="Animal Type"
+      <div className="submission-main-container">
+        <Box sx={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
+          <Typography variant="h4" gutterBottom align="center" sx={titleStyle}>
+            Animal Submission Form
+          </Typography>
+          <Box display="flex" justifyContent="center" marginBottom="20px">
+            {imagePreview && (
+              <Box
+                sx={{
+                  maxWidth: '300px', 
+                  maxHeight: '300px', 
+                  overflow: 'hidden', 
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center', 
+                  margin: 'auto', 
+                  border: '1px solid #ccc', 
+                  borderRadius: '4px', 
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
+                }}
+              >
+                <img src={imagePreview} alt="Preview" style={{ width: '100%', height: 'auto' }} />
+              </Box>
+            )}
+          </Box>
+        <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: 'auto', padding: '20px' }}>
+        <TextField
+          label="Animal Name"
+          variant="outlined"
+          name="animalName"
+          value={formData.animalName}
           onChange={handleChange}
-          name="animalType"
-        >
-          <MenuItem value=""><em>None</em></MenuItem>
-          <MenuItem value="dog">Dog</MenuItem>
-          <MenuItem value="cat">Cat</MenuItem>
-          <MenuItem value="fish">Fish</MenuItem>
-          <MenuItem value="bird">Bird</MenuItem>
-          <MenuItem value="other">Other</MenuItem>
-        </Select>
-      </FormControl>
-
-      <TextareaAutosize
-        aria-label="Health Information"
-        minRows={3}
-        placeholder="Health Information"
-        style={{ width: '100%', marginTop: 8, marginBottom: 8, padding: 10 }}
-        name="healthInfo"
-        value={formData.healthInfo}
-        onChange={handleChange}
-      />
-
-      <Button
-        variant="contained"
-        component="label"
-        fullWidth
-        margin="normal"
-      >
-        Upload Image
-        <input
-          type="file"
-          hidden
-          name="image"
-          onChange={handleFileChange} // You might need a separate handler for file
+          fullWidth
+          margin="normal"
+          className="TextField-root"
         />
-      </Button>
-
-      <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '16px' }}>
-        Submit
-      </Button>
-
-      {snackbarMessage && (
-            <Alert severity={snackbarSeverity} sx={{ width: '100%', mt: 2 }}>
-              {snackbarMessage}
-            </Alert>
-          )}
-    </form>
-
-    </Box>
+        <TextField
+          label="Animal Age"
+          variant="outlined"
+          name="animalAge"
+          value={formData.animalAge}
+          onChange={handleChange}
+          fullWidth
+          margin="normal"
+          className="TextField-root"
+        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="animal-type-label">Animal Type</InputLabel>
+          <Select
+            labelId="animal-type-label"
+            value={formData.animalType}
+            label="Animal Type"
+            onChange={handleChange}
+            name="animalType"
+            className="TextField-root"
+          >
+            <MenuItem value=""><em>None</em></MenuItem>
+            <MenuItem value="dog">Dog</MenuItem>
+            <MenuItem value="cat">Cat</MenuItem>
+            <MenuItem value="fish">Fish</MenuItem>
+            <MenuItem value="bird">Bird</MenuItem>
+            <MenuItem value="other">Other</MenuItem>
+          </Select>
+        </FormControl>
+        <TextareaAutosize
+          aria-label="Health Information"
+          minRows={3}
+          placeholder="Health Information"
+          style={{ width: '100%', marginTop: 8, marginBottom: 8, padding: 10 }}
+          name="healthInfo"
+          value={formData.healthInfo}
+          onChange={handleChange}
+          
+        />
+        <Button
+          variant="contained"
+          component="label"
+          fullWidth
+          margin="normal"
+        >
+          Upload Image
+          <input
+            type="file"
+            hidden
+            name="image"
+            onChange={handleFileChange} 
+          />
+        </Button>
+        <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '16px' }}>
+          Submit
+        </Button>
+        {snackbarMessage && (
+              <Alert severity={snackbarSeverity} sx={{ width: '100%', mt: 2 }}>
+                {snackbarMessage}
+              </Alert>
+            )}
+            </form>
+        
+            </Box>
+      </div>
     </>  
   );
 };

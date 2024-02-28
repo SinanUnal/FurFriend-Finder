@@ -7,6 +7,7 @@ import { AppBar, Toolbar, Typography, CardMedia, CardActions, IconButton, Box, B
 import MenuIcon from '@mui/icons-material/Menu';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
 import { useNavigate } from 'react-router-dom';
+import './AdoptedAnimal.css';
 
 const AdoptedAnimals = () => {
   const { userId } = useParams();
@@ -120,64 +121,67 @@ const AdoptedAnimals = () => {
         Adopted Animals
       </Typography>
 
-      <Grid container spacing={2}>
-        {adoptedAnimals.length > 0 ? (
-          adoptedAnimals.map(animal => (
-            <Grid item xs={12} sm={6} md={4} key={animal._id}>
-              <Card sx={cardStyle}>
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={animal.imageUrl || 'path-to-default-image.jpg'}
-                  alt={animal.animalName}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
-                    {animal.animalName}
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Status:</Typography>
-                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.status}</Typography>
-                  {/* <Typography variant="body2" color="text.secondary">
-                    Age: {animal.animalAge}<br/>
-                    Health: {animal.healthInfo}
-                  </Typography> */}
-                   <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
-                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalAge}</Typography>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Status:</Typography>
-                  <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.healthInfo}</Typography>
-                </CardContent>
-                <CardActions>
-                <Button component={Link} to={`/user/public-profile/${animal.giverId._id}`} size="small" color="primary" sx={buttonStyle}>
-                  View Giver's Profile
-                </Button>
-                </CardActions>
-              </Card>
+      <div className="adopted-main-container">
+        <Grid container spacing={2}>
+          {adoptedAnimals.length > 0 ? (
+            adoptedAnimals.map(animal => (
+              <Grid item xs={12} sm={6} md={4} key={animal._id}>
+                <Card sx={cardStyle}>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={animal.imageUrl || 'path-to-default-image.jpg'}
+                    alt={animal.animalName}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" sx={{ fontWeight: 'bold' }}>
+                      {animal.animalName}
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Status:</Typography>
+                    <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.status}</Typography>
+                    {/* <Typography variant="body2" color="text.secondary">
+                      Age: {animal.animalAge}<br/>
+                      Health: {animal.healthInfo}
+                    </Typography> */}
+                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+                    <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalAge}</Typography>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health Status:</Typography>
+                    <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.healthInfo}</Typography>
+                  </CardContent>
+                  <CardActions>
+                  <Button component={Link} to={`/user/public-profile/${animal.giverId._id}`} size="small" color="primary" sx={buttonStyle}>
+                    View Giver's Profile
+                  </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))
+          ) : (
+            <Grid container justifyContent="center" alignItems="center" mt={8}>
+        <Grid item xs={12} md={6} lg={4}>
+          <Paper elevation={3} sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 4,
+            backgroundColor: '#f7f7f7',
+            borderRadius: '15px',
+          }}>
+            <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+            <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
+              You have not adopted any animals.
+            </Typography>
+            <Button variant="contained" color="primary" onClick={handleExploreClick}>
+              Start Exploring
+            </Button>
+          </Paper>
+        </Grid>
             </Grid>
-          ))
-        ) : (
-          <Grid container justifyContent="center" alignItems="center" mt={8}>
-      <Grid item xs={12} md={6} lg={4}>
-        <Paper elevation={3} sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 4,
-          backgroundColor: '#f7f7f7',
-          borderRadius: '15px',
-        }}>
-          <SentimentDissatisfiedIcon sx={{ fontSize: 60, color: 'primary.main' }} />
-          <Typography variant="h6" color="textSecondary" align="center" sx={{ mt: 2, mb: 2 }}>
-            You have not adopted any animals.
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handleExploreClick}>
-            Start Exploring
-          </Button>
-        </Paper>
-      </Grid>
-    </Grid>
+      
         )}
       </Grid>
+      </div>
     </div>
   );
 };

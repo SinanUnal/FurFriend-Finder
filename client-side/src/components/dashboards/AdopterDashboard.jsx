@@ -20,7 +20,7 @@ import { useTheme } from '@mui/material/styles';
 import SearchOffIcon from '@mui/icons-material/SearchOff';
 import { CircularProgress, Typography, Box } from '@mui/material';
 import { Card, CardContent, CardActions, CardMedia, Grid, Alert } from '@mui/material';
-
+import './AdopterDashboard.css';
 
 
 
@@ -181,81 +181,81 @@ export default function AdopterDashboard() {
         </Drawer>
       )}
 
-<SearchFilter onSearch={fetchAnimals }/>
-          {feedbackMessage && !error && (
-            <Alert severity="success" sx={{ margin: 2 }}>
-               {feedbackMessage}
-            </Alert>
-          )}
-          {error &&  (
-            <Alert severity="error" sx={{ margin: 2 }}>
-              {error}
-            </Alert>
-          )}
-          {loading && (
-          <Box display="flex"     justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
-          <CircularProgress />
-          <Typography variant="h6" color="textSecondary" mt={2}>
-            Loading...
-          </Typography>
-        </Box>
-      )}
 
 
-          {searchPerformed && !loading && !error && animals.length === 0 && (
-        <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
-          <SearchOffIcon sx={{ fontSize: 60, color: 'primary.main' }} />
-          <Typography variant="h6" color="textSecondary">
-            No animals found matching your criteria.
-          </Typography>
-        </Box>
-      )} 
-          
-          
-
-      <Grid container spacing={2}>
-    {!loading && !error && animals.map(animal => (
-      <Grid item xs={12} sm={6} md={4} lg={3} key={animal._id}>
-        <Card sx={cardStyles}>
-          {animal.imageUrl && 
-            <CardMedia
-              component="img"
-              sx={cardMediaStyles}
-              image={animal.imageUrl}
-              alt={animal.animalName}
-            />
-          }
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {animal.animalName}
+<div className='adopter-main-container'>
+  <SearchFilter onSearch={fetchAnimals }/>
+            {feedbackMessage && !error && (
+              <Alert severity="success" sx={{ margin: 2 }}>
+                 {feedbackMessage}
+              </Alert>
+            )}
+            {error &&  (
+              <Alert severity="error" sx={{ margin: 2 }}>
+                {error}
+              </Alert>
+            )}
+            {loading && (
+            <Box display="flex"     justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
+            <CircularProgress />
+            <Typography variant="h6" color="textSecondary" mt={2}>
+              Loading...
             </Typography>
-            {/* <Typography variant="body2" color="text.secondary">
-              Type: {animal.animalType}<br/>
-              Age: {animal.animalAge}<br/>
-              Health: {animal.healthInfo}
-            </Typography> */}
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Type:</Typography>
-              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalType}</Typography>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
-              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalAge}</Typography>
-              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health State:</Typography>
-              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.healthInfo}</Typography>
-          </CardContent>
-          <CardActions>
-            <Button component={Link} to={`/user/public-profile/${animal.giverId}`} size="small" color="primary" sx={buttonStyle}>
-              View Giver's Profile
-            </Button>
-            <Button size="small" color="secondary" onClick={() => handleSelectAnimal(animal._id)} sx={buttonStyle}>
-              Adopt This Animal
-            </Button>
-            <Button size="small" onClick={() => addToFavorites(animal._id)} sx={buttonStyle}>
-              Add to Favorites
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    ))}
-  </Grid>
+          </Box>
+        )}
+  
+  
+            {searchPerformed && !loading && !error && animals.length === 0 && (
+          <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" mt={2}>
+            <SearchOffIcon sx={{ fontSize: 60, color: 'primary.main' }} />
+            <Typography variant="h6" color="textSecondary">
+              No animals found matching your criteria.
+            </Typography>
+          </Box>
+        )}
+  
+  
+  
+        <Grid container spacing={2}>
+      {!loading && !error && animals.map(animal => (
+        <Grid item xs={12} sm={6} md={4} lg={3} key={animal._id}>
+          <Card sx={cardStyles}>
+            {animal.imageUrl &&
+              <CardMedia
+                component="img"
+                sx={cardMediaStyles}
+                image={animal.imageUrl}
+                alt={animal.animalName}
+              />
+            }
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {animal.animalName}
+              </Typography>
+  
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Type:</Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalType}</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.animalAge}</Typography>
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health State:</Typography>
+                <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{animal.healthInfo}</Typography>
+            </CardContent>
+            <CardActions>
+              <Button component={Link} to={`/user/public-profile/${animal.giverId}`} size="small" color="primary" sx={buttonStyle}>
+                View Giver's Profile
+              </Button>
+              <Button size="small" color="secondary" onClick={() => handleSelectAnimal(animal._id)} sx={buttonStyle}>
+                Adopt This Animal
+              </Button>
+              <Button size="small" onClick={() => addToFavorites(animal._id)} sx={buttonStyle}>
+                Add to Favorites
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+</div>
           
         </div>
       );

@@ -9,13 +9,14 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { AuthContext } from '../Auth/Authcontext';
+import './PublicProfile.css';
 
 const PublicProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const { adopterId } = useContext(AuthContext);
 
-  // State for profile and drawer
+
   const [publicProfile, setPublicProfile] = useState({
     username: '',
     profilePicture: '',
@@ -24,11 +25,11 @@ const PublicProfile = () => {
   });
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Media query for responsive design
+ 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // Effect for fetching profile data
+
   useEffect(() => {
     const fetchPublicProfile = async () => {
       try {
@@ -43,7 +44,7 @@ const PublicProfile = () => {
     fetchPublicProfile();
   }, [userId]);
 
-  // Menu items
+  
   const menuItems = [
     { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
     { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
@@ -60,7 +61,6 @@ const PublicProfile = () => {
   };
 
 
-  // Logout function
   const logout = () => {
     localStorage.clear();
     navigate('/login');
@@ -68,6 +68,7 @@ const PublicProfile = () => {
 
   return (
     <div>
+        <div className="public-main-container">
       <AppBar position="static">
         <Toolbar>
           {isMobile && (
@@ -108,37 +109,37 @@ const PublicProfile = () => {
         </Box>
       </Drawer>
 
-      <Card variant="outlined" sx={{ 
-        maxWidth: 400, 
-        margin: 'auto', 
-        mt: 4, 
-        boxShadow: 3, 
-        borderRadius: '10px', 
-        backgroundColor: 'background.paper' 
-      }}>
-      <CardContent>
-        <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-          <Avatar 
-            alt="Profile Picture"
-            src={publicProfile.profilePicture || 'path-to-your-default-image.png'}
-            sx={{ width: 150, height: 150, marginBottom: 2 }}
-          />
-          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-            {publicProfile.username || 'Username'}
+    
+        <Card variant="outlined" sx={{
+          maxWidth: 400,
+          margin: 'auto',
+          mt: 4,
+          boxShadow: 3,
+          borderRadius: '10px',
+          backgroundColor: 'background.paper'
+        }}>
+        <CardContent>
+          <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+            <Avatar
+              alt="Profile Picture"
+              src={publicProfile.profilePicture || 'path-to-your-default-image.png'}
+              sx={{ width: 150, height: 150, marginBottom: 2 }}
+            />
+            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+              {publicProfile.username || 'Username'}
+            </Typography>
+          </Box>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Address:</Typography>
+          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
+            {publicProfile.address || 'N/A'}
           </Typography>
-        </Box>
-
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Address:</Typography>
-        <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
-          {publicProfile.address || 'N/A'}
-        </Typography>
-
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Phone Number:</Typography>
-        <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
-          {publicProfile.phoneNumber || 'N/A'}
-        </Typography>
-      </CardContent>
-    </Card>
+          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Phone Number:</Typography>
+          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
+            {publicProfile.phoneNumber || 'N/A'}
+          </Typography>
+        </CardContent>
+            </Card>
+      </div>
     </div>
   );
 };

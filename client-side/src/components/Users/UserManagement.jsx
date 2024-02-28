@@ -13,7 +13,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
-// import { useNavigate } from 'react-router-dom';
+import './UserManagement.css';
 import { Link } from 'react-router-dom';
 
 export default function UserManagement() {
@@ -22,7 +22,7 @@ export default function UserManagement() {
   const [editingUserId, setEditingUserId] = useState(null);
   const [editFormData, setEditFormData] = useState({ username: '', age: '', address: '', phoneNumber: '' });
 
-  // const navigate = useNavigate();
+  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -74,7 +74,7 @@ export default function UserManagement() {
 
 
   const menuItems = [
-    // Update these items as per your requirement
+   
     { text: 'Admin Dashboard', path: '/admin-dashboard'},
     { text: 'Reports', path: '/admin-dashboard/reports'},
     { text: 'Pending Approvals', path: '/admin-dashboard/pending-approvals'}
@@ -91,24 +91,25 @@ export default function UserManagement() {
 
   const titleStyle = {
     textAlign: 'center',
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Example font family
-    color: '#3f51b5', // Example color (Material-UI primary color)
-    backgroundColor: '#f5f5f5', // Light grey background
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', 
+    color: '#3f51b5', 
+    backgroundColor: '#f5f5f5', 
     padding: '10px 0',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', // Subtle shadow
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)', 
     margin: '20px 0',
     borderRadius: '4px',
   };
 
   const tableStyle = {
     marginTop: '20px',
+    backgroundColor: 'rgba(255, 255, 255, 0.95)'
   };
 
   const HeaderTableCell = styled(TableCell)(({ theme }) => ({
     fontWeight: 'bold',
-    fontSize: '1.1rem', // Adjust font size as needed
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Subtle shadow effect
-    backgroundColor: theme.palette.background.paper, // Or any color you prefer
+    fontSize: '1.1rem', 
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    backgroundColor: theme.palette.background.paper, 
   }));
 
 
@@ -149,153 +150,105 @@ export default function UserManagement() {
       </Drawer>
 
 
-      <Typography variant="h4" gutterBottom style={titleStyle}>
-        User Management
-      </Typography>
-
-
-      
-      <TableContainer component={Paper} style={tableStyle}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <HeaderTableCell>Username</ HeaderTableCell>
-              <HeaderTableCell>Age</HeaderTableCell>
-              <HeaderTableCell>Address</HeaderTableCell>
-              <HeaderTableCell>Phone Number</HeaderTableCell>
-              <HeaderTableCell>Actions</HeaderTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map(user => (
-              <TableRow key={user._id}>
-                {editingUserId === user._id ? (
-                  <TableCell colSpan="5">
-                    <form onSubmit={handleEditSubmit} style={{ display: 'flex', justifyContent: 'space-around' }}>
-                      <TextField
-                        label="Username"
-                        name="username"
-                        value={editFormData.username}
-                        onChange={handleEditChange}
-                      />
-                      <TextField
-                        label="Age"
-                        type="number"
-                        name="age"
-                        value={editFormData.age}
-                        onChange={handleEditChange}
-                      />
-                      <TextField
-                        label="Address"
-                        name="address"
-                        value={editFormData.address}
-                        onChange={handleEditChange}
-                      />
-                      <TextField
-                        label="Phone Number"
-                        type="tel"
-                        name="phoneNumber"
-                        value={editFormData.phoneNumber}
-                        onChange={handleEditChange}
-                      />
-                      <IconButton color="primary" type="submit">
-                        <SaveIcon />
-                      </IconButton>
-                      <IconButton color="secondary" onClick={() => setEditingUserId(null)}>
-                        <CancelIcon />
-                      </IconButton>
-                    </form>
-                  </TableCell>
-                ) : (
-                  <>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.age}</TableCell>
-                    <TableCell>{user.address}</TableCell>
-                    <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>
-                      <IconButton color="primary" onClick={() => handleEdit(user)}>
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton color="secondary" onClick={() => handleDelete(user._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </TableCell>
-                  </>
-                )}
+      <div className="management-main-container">
+      <Box
+          display="flex"
+          justifyContent="center"
+          width="100%"
+          my={4}
+          p={2} 
+          style={{
+            backgroundColor: '#f0f0f0', 
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
+            borderRadius: '4px', 
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold', 
+            }}
+          >
+           User management
+          </Typography>
+        </Box>
+        
+        <TableContainer component={Paper} style={tableStyle}>
+          <Table >
+            <TableHead >
+              <TableRow>
+                <HeaderTableCell>Username</ HeaderTableCell>
+                <HeaderTableCell>Age</HeaderTableCell>
+                <HeaderTableCell>Address</HeaderTableCell>
+                <HeaderTableCell>Phone Number</HeaderTableCell>
+                <HeaderTableCell>Actions</HeaderTableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {users.map(user => (
+                <TableRow key={user._id}>
+                  {editingUserId === user._id ? (
+                    <TableCell colSpan="5">
+                      <form onSubmit={handleEditSubmit} style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <TextField
+                          label="Username"
+                          name="username"
+                          value={editFormData.username}
+                          onChange={handleEditChange}
+                        />
+                        <TextField
+                          label="Age"
+                          type="number"
+                          name="age"
+                          value={editFormData.age}
+                          onChange={handleEditChange}
+                        />
+                        <TextField
+                          label="Address"
+                          name="address"
+                          value={editFormData.address}
+                          onChange={handleEditChange}
+                        />
+                        <TextField
+                          label="Phone Number"
+                          type="tel"
+                          name="phoneNumber"
+                          value={editFormData.phoneNumber}
+                          onChange={handleEditChange}
+                        />
+                        <IconButton color="primary" type="submit">
+                          <SaveIcon />
+                        </IconButton>
+                        <IconButton color="secondary" onClick={() => setEditingUserId(null)}>
+                          <CancelIcon />
+                        </IconButton>
+                      </form>
+                    </TableCell>
+                  ) : (
+                    <>
+                      <TableCell>{user.username}</TableCell>
+                      <TableCell>{user.age}</TableCell>
+                      <TableCell>{user.address}</TableCell>
+                      <TableCell>{user.phoneNumber}</TableCell>
+                      <TableCell>
+                        <IconButton color="primary" onClick={() => handleEdit(user)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton color="secondary" onClick={() => handleDelete(user._id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </>
+                  )}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
 
-
-
-
-
-
-
-       {/* <h2>User Management</h2>
-      {error && <p>{error}</p>}
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Age</th>
-            <th>Address</th>
-            <th>Phone Number</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user._id}>
-              {editingUserId === user._id ? (
-                <td colSpan="4">
-                  <form onSubmit={handleEditSubmit}>
-                    <input
-                      type="text"
-                      name="username"
-                      value={editFormData.username}
-                      onChange={handleEditChange}
-                    />
-                    <input
-                      type="number"
-                      name="age"
-                      value={editFormData.age}
-                      onChange={handleEditChange}
-                    />
-                    <input
-                      type="text"
-                      name="address"
-                      value={editFormData.address}
-                      onChange={handleEditChange}
-                    />
-                    <input
-                      type="number"
-                      name="phoneNumber"
-                      value={editFormData.phoneNumber}
-                      onChange={handleEditChange}
-                    />
-                    <button type="submit">Save</button>
-                    <button onClick={() => setEditingUserId(null)}>Cancel</button>
-                  </form>
-                </td>
-              ) : (
-                <>
-                  <td>{user.username}</td>
-                  <td>{user.age}</td>
-                  <td>{user.address}</td>
-                  <td>{user.phoneNumber}</td>
-                  <td>
-                    <button onClick={() => handleEdit(user)}>Edit</button>
-                    <button onClick={() => handleDelete(user._id)}>Delete</button>
-                  </td>
-                </>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   );
 }

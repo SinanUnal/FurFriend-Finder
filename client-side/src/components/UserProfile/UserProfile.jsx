@@ -91,23 +91,7 @@ const UserProfile = () => {
     menuItems = []; 
   }
 
-  // const menuItems = userProfile.userType === 'giver' ? [
-  //   [
-    
-  //     { text: 'Animal Submission Form', path: '/giver-dashboard/submission-form'},
-  //     { text: 'Current Listings', path: `/giver-dashboard/current-listings/${userId}`},
-  //     { text: 'Adoption Applications', path: `/giver-dashboard/applications/${userId}` },
-  //     { text: 'Profile', path: `/user/profile/${userId}`},
-  //     { text: 'My Activities', path: '/giver-dashboard/'},
-  //     { text: 'Logout', action: logout }
-  //   ]
-  // ] : [
-  //   { text: 'My Applications', path: '/adopter-dashboard/your-applications' },
-  //   { text: 'View Favorites', path: '/adopter-dashboard/favorites' },
-  //   { text: 'View Adopted Animals', path: `/adopter-dashboard/adopted-animals/${userId}` },
-  //   { text: 'Find Your Perfect Match', path: '/adopter-dashboard' },
-  //   { text: 'Logout', action: logout }
-  // ];
+
 
 
 
@@ -158,6 +142,7 @@ const UserProfile = () => {
 
   return (
     <div>
+     
       <AppBar position="static" sx={{background: 'linear-gradient(to right, #8e2de2, #4a00e0)'}}>
       <Toolbar>
     {isMobile && (
@@ -200,153 +185,149 @@ const UserProfile = () => {
       </Typography>
     
     
-      {/* <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-        <Avatar 
-          src={userProfile.profilePicture} 
-          alt="Profile" 
-          sx={{ width: 100, height: 100 }}
-          style={{ border: '2px solid lightgray' }}
-        />
-      </div> */}
 
    
 
-{isEditMode ? (
-      <Card variant="outlined" sx={{ maxWidth: 345, margin: 'auto', mt: 4 }}>
-        <CardContent>
-          
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-          <Avatar 
-            src={userProfile.profilePicture} 
-            alt="Profile" 
-            sx={{ width: 100, height: 100 }} // Adjust size as needed
-            style={{ border: '2px solid lightgray' }} // Optional styling
-          />
-        </div>
 
-          {userProfile.profilePicture && (
-            <Button variant="contained" color="secondary" onClick={handleRemoveProfilePicture} sx={{ mb: 2 }}>
-              Remove Profile Picture
-            </Button>
-          )}
-          <input
-            accept="image/*"
-            type="file"
-            onChange={(e) => setFile(e.target.files[0])}
-            style={{ display: 'block', marginBottom: 16 }}
-          />
-          <Button variant="contained" onClick={handleImageUpload} disabled={!file} sx={{ mb: 2 }}>
-            Upload Image
-          </Button>
-
-          <TextField 
-            label="Username" 
-            name="username" 
-            value={userProfile.username} 
-            onChange={handleChange} 
-            fullWidth 
-            margin="normal" 
-          />
-          <TextField 
-            label="Age" 
-            type="number" 
-            name="age" 
-            value={userProfile.age} 
-            onChange={handleChange} 
-            fullWidth 
-            margin="normal" 
-          />
-          <TextField 
-            label="Address" 
-            name="address" 
-            value={userProfile.address} 
-            onChange={handleChange} 
-            fullWidth 
-            margin="normal" 
-          />
-          <TextField 
-            label="Phone Number" 
-            name="phoneNumber" 
-            value={userProfile.phoneNumber} 
-            onChange={handleChange} 
-            fullWidth 
-            margin="normal" 
-          />
-          <TextField 
-            label="User Type" 
-            name="userType" 
-            value={userProfile.userType} 
-            onChange={handleChange} 
-            fullWidth 
-            margin="normal" 
-            disabled 
-          />
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" color="primary" onClick={handleProfileUpdate} fullWidth>
-            Save Profile
-          </Button>
-        </CardActions>
-      </Card>
-    ) : (
-      <Card variant="outlined" sx={{ 
-        maxWidth: 400, 
-        margin: 'auto', 
-        mt: 4, 
-        boxShadow: 3, 
-        borderRadius: '10px', 
-        backgroundColor: 'background.paper' 
-      }}>
-        <CardContent>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
-            <Avatar 
-              src={userProfile.profilePicture} 
-              alt="Profile" 
-              sx={{ 
-                width: 150, height: 150, 
-                marginBottom: 2,
-                border: '3px solid lightgray'
-              }}
-            />
-            <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Profile Info</Typography>
-          </div>
+ 
+    {isEditMode ? (
+          <Card variant="outlined" sx={{ maxWidth: 345, margin: 'auto', mt: 4 }}>
+            <CardContent>
+    
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+              <Avatar
+                src={userProfile.profilePicture}
+                alt="Profile"
+                sx={{ width: 100, height: 100 }}
+                style={{ border: '2px solid lightgray' }}
+              />
+            </div>
+    
+              {userProfile.profilePicture && (
+                <Button variant="contained" color="secondary" onClick={handleRemoveProfilePicture} sx={{ mb: 2 }}>
+                  Remove Profile Picture
+                </Button>
+              )}
+              <input
+                accept="image/*"
+                type="file"
+                onChange={(e) => setFile(e.target.files[0])}
+                style={{ display: 'block', marginBottom: 16 }}
+              />
+              <Button variant="contained" onClick={handleImageUpload} disabled={!file} sx={{ mb: 2 }}>
+                Upload Image
+              </Button>
+    
+              <TextField
+                label="Username"
+                name="username"
+                value={userProfile.username}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Age"
+                type="number"
+                name="age"
+                value={userProfile.age}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Address"
+                name="address"
+                value={userProfile.address}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="Phone Number"
+                name="phoneNumber"
+                value={userProfile.phoneNumber}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+              />
+              <TextField
+                label="User Type"
+                name="userType"
+                value={userProfile.userType}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                disabled
+              />
+            </CardContent>
+            <CardActions>
+              <Button variant="contained" color="primary" onClick={handleProfileUpdate} fullWidth>
+                Save Profile
+              </Button>
+            </CardActions>
+          </Card>
+        ) : (
+          <Card variant="outlined" sx={{
+            maxWidth: 400,
+            margin: 'auto',
+            mt: 4,
+            boxShadow: 3,
+            borderRadius: '10px',
+            backgroundColor: 'background.paper'
+          }}>
+            <CardContent>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
+                <Avatar
+                  src={userProfile.profilePicture}
+                  alt="Profile"
+                  sx={{
+                    width: 150, height: 150,
+                    marginBottom: 2,
+                    border: '3px solid lightgray'
+                  }}
+                />
+                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Profile Info</Typography>
+              </div>
+    
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Username:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.username}</Typography>
+    
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.age}</Typography>
+    
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Address:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.address}</Typography>
+    
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Phone Number:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.phoneNumber}</Typography>
+    
+              <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>User Type:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 2, fontSize: '1.1rem' }}>{userProfile.userType}</Typography>
+            </CardContent>
+            <CardActions>
+              <Button variant="contained" color="primary" onClick={toggleEditMode} fullWidth>
+                Edit Profile
+              </Button>
+            </CardActions>
+          </Card>
+    
+        )}
+         <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          style={{ top: '57%' }}
+        >
+          <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
   
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Username:</Typography>
-          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.username}</Typography>
-  
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
-          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.age}</Typography>
-  
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Address:</Typography>
-          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.address}</Typography>
-  
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Phone Number:</Typography>
-          <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>{userProfile.phoneNumber}</Typography>
-  
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>User Type:</Typography>
-          <Typography variant="body1" sx={{ marginBottom: 2, fontSize: '1.1rem' }}>{userProfile.userType}</Typography>
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" color="primary" onClick={toggleEditMode} fullWidth>
-            Edit Profile
-          </Button>
-        </CardActions>
-      </Card>
-  
-    )}
-     <Snackbar 
-      open={snackbarOpen} 
-      autoHideDuration={6000} 
-      onClose={() => setSnackbarOpen(false)}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      style={{ top: '57%' }} 
-    >
-      <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
-        {snackbarMessage}
-      </Alert>
-    </Snackbar> 
+</div>
      
-  </div>
+
   );
 };
 

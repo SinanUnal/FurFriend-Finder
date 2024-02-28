@@ -9,6 +9,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTheme } from '@mui/material/styles';
 import { useMediaQuery } from '@mui/material';
 import { Link } from 'react-router-dom';
+import './Reports.css';
 
 export default function Reports() {
   const [reportData, setReportData] = useState({});
@@ -95,45 +96,64 @@ export default function Reports() {
         </Box>
       </Drawer>
 
-      <Box sx={{ flexGrow: 1, padding: '20px' }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} sx={{ padding: '20px', textAlign: 'center' }}>
-              <Typography variant="h6" component="div" color="primary">
-                Active Users
-              </Typography>
-              <Typography variant="h5" component="div">
-                {reportData.activeUsers}
-              </Typography>
-            </Paper>
-          </Grid>
+      <div className="reports-main-container">
 
-          <Grid item xs={12} sm={6} md={4}>
-            <Paper elevation={3} sx={{ padding: '20px', textAlign: 'center' }}>
-              <Typography variant="h6" component="div" color="secondary">
-                Total Adoptions
-              </Typography>
-              <Typography variant="h5" component="div">
-                {reportData.totalAdoptions}
-              </Typography>
-            </Paper>
+      <Box
+          display="flex"
+          justifyContent="center"
+          width="100%"
+          my={4}
+          p={2} 
+          style={{
+            backgroundColor: '#f0f0f0', 
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', 
+            borderRadius: '4px', 
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h2"
+            style={{
+              textAlign: 'center',
+              fontWeight: 'bold', 
+            }}
+          >
+            Platform Analytics
+          </Typography>
+        </Box>
+
+        <Box sx={{ flexGrow: 1, padding: '20px' }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6} md={4}>
+              <Paper elevation={3} sx={{ padding: '20px', textAlign: 'center' }}>
+                <Typography variant="h6" component="div" color="primary">
+                  Active Users
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {reportData.activeUsers}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Paper elevation={3} sx={{ padding: '20px', textAlign: 'center' }}>
+                <Typography variant="h6" component="div" color="secondary">
+                  Total Adoptions
+                </Typography>
+                <Typography variant="h5" component="div">
+                  {reportData.totalAdoptions}
+                </Typography>
+              </Paper>
+            </Grid>
+        
+        
           </Grid>
-          
-          {/* Add more Grid items here for additional report data */}
-        </Grid>
+    
       </Box>
+      </div>
 
 
 
 
-
-{/* 
-      <h2>Reports and Analytics</h2>
-      {error && <p>{error}</p>}
-      <div>
-        <p>Active Users: {reportData.activeUsers}</p>
-        <p>Total Adoptions: {reportData.totalAdoptions}</p>
-      </div> */}
     </div>
   )
 }
