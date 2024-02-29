@@ -196,6 +196,10 @@ export default function PendingApprovals() {
               <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Age:</Typography>
               <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
                 {submission.animalAge}
+                <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>Health State:</Typography>
+              <Typography variant="body1" sx={{ marginBottom: 1, fontSize: '1.1rem' }}>
+                {submission.healthInfo}
+              </Typography>
               </Typography>
             </CardContent>
             <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
